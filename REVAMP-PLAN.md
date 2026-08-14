@@ -4,11 +4,14 @@ Decided 2026-08-14. Full visual revamp: new palette + cinematic scroll-driven la
 
 ## Decisions (locked)
 
-- **Palette**: white base, deep flight-blue, violet accent
-  - `--paper: #FFFFFF` / off-white section tint `#F6F8FC`
-  - `--flight-blue: #0B3B8C` (headings, dark sections, footer)
-  - `--sky-blue: #2E6BD6` (flight path, links, secondary UI)
-  - `--violet: #8B5CF6` (CTAs, journey checkpoints, highlights) — text on violet: `#F4F0FF`
+- **Palette**: "Ink + Electric" — near-black ink on warm white, electric blue as the ONLY color
+  - `--paper: #F7F7F5` warm white / pure white `#FFFFFF` for cards
+  - `--ink: #111318` (headings, body, dark sections, footer)
+  - `--ink-soft: #6B7280` (secondary text)
+  - `--electric: #2563EB` (the plane, flight path, CTAs, checkpoints, links — everything blue)
+  - `--electric-soft: #93B4F5` / wash `#EAF1FF` (path glow, tints, hover states)
+  - Rationale: monochrome page makes the electric-blue plane + flight path the only
+    saturated element — the eye tracks it down the page; the color IS the journey.
   - Old "vintage airmail" palette (navy/cream/red/tan) is fully retired
 - **Scroll story**: **The Journey** — an animated flight path draws down the page as you scroll.
   Pet leaves home (Karachi) → checkpoints pin content sections → lands abroad.
