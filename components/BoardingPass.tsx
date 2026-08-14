@@ -1,47 +1,36 @@
 "use client";
 
 import { useState } from "react";
-import { estimateFare, type PetSize } from "@/lib/pricing";
+import { CORRIDORS, getCorridor } from "@/lib/routes";
+import { estimateFare, type Species } from "@/lib/pricing";
 
 type Status = "idle" | "sending" | "sent" | "error";
 
-// Rough straight-line miles between typed cities isn't knowable client-side
-// without a geo API, so the estimate only renders when the user picks a
-// distance band. The API lead always captures the raw city text.
-const DISTANCE_BANDS = [
-  { label: "Under 500 miles", miles: 350 },
-  { label: "500–1,000 miles", miles: 750 },
-  { label: "1,000–1,500 miles", miles: 1250 },
-  { label: "1,500–2,000 miles", miles: 1750 },
-  { label: "Over 2,000 miles", miles: 2400 },
-  { label: "Not sure", miles: 0 },
+const ORIGINS = [
+  { code: "KHI", city: "Karachi" },
+  { code: "LHE", city: "Lahore" },
+  { code: "ISB", city: "Islamabad" },
+  { code: "OTH", city: "Another city" },
 ] as const;
 
 export default function BoardingPass({
-  defaultFrom = "",
-  defaultTo = "",
+  defaultCorridor = "",
 }: {
-  defaultFrom?: string;
-  defaultTo?: string;
+  defaultCorridor?: string;
 }) {
   const [status, setStatus] = useState<Status>("idle");
-  const [from, setFrom] = useState(defaultFrom);
-  const [to, setTo] = useState(defaultTo);
+  const [origin, setOrigin] = useState("KHI");
+  const [corridorSlug, setCorridorSlug] = useState(defaultCorridor);
   const [petName, setPetName] = useState("");
-  const [petType, setPetType] = useState("dog");
-  const [size, setSize] = useState<PetSize>("medium");
-  const [bandMiles, setBandMiles] = useState(0);
+  const [species, setSpecies] = useState<Species>("cat");
+  const [breed, setBreed] = useState("");
   const [date, setDate] = useState("");
+  const [whatsapp, setWhatsapp] = useState("");
   const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
 
-  const estimate =
-    bandMiles > 0 ? estimateFare({ miles: bandMiles, size, solo: false }) : null;
-
-  const code = (city: string) =>
-    city.trim().length >= 3
-      ? city.trim().replace(/[^a-zA-Z]/g, "").slice(0, 3).toUpperCase()
-      : "···";
+  const corridor = corridorSlug ? getCorridor(corridorSlug) : undefined;
+  const estimate = corridor ? estimateFare(corridor, species) : null;
+  const originCity = ORIGINS.find((o) => o.code === origin);
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
@@ -50,7 +39,17 @@ export default function BoardingPass({
       const res = await fetch("/api/quote", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ from, to, petName, petType, size, bandMiles, date, email, phone }),
+        body: JSON.stringify({
+          from: originCity ? `${originCity.city}, Pakistan` : "Pakistan",
+          to: corridor?.destination ?? "",
+          corridor: corridorSlug,
+          petName,
+          petType: species,
+          breed,
+          date,
+          whatsapp,
+          email,
+        }),
       });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       setStatus("sent");
@@ -70,7 +69,8 @@ export default function BoardingPass({
           <span className="stamp">Request received</span>
           <p>
             {petName ? `${petName} is` : "You're"} on the manifest. We&apos;ll
-            email your quote within 24 hours — usually much sooner.
+            reply on WhatsApp {whatsapp ? "" : "or email "}within 24 hours with
+            a full plan and one all-in price.
           </p>
           <p className="pass-note">
             Questions in the meantime? <a href="mailto:hello@tailfares.com">hello@tailfares.com</a>
@@ -88,7 +88,7 @@ export default function BoardingPass({
       </div>
       <div className="pass-body">
         <div className="pass-route" aria-hidden="true">
-          <span className="code">{code(from)}</span>
+          <span className="code">{origin === "OTH" ? "PAK" : origin}</span>
           <svg className="arc" viewBox="0 0 200 34" preserveAspectRatio="none">
             <path
               d="M4 30 Q 100 -8 196 30"
@@ -100,29 +100,41 @@ export default function BoardingPass({
             <circle cx="4" cy="30" r="3.5" fill="var(--night)" />
             <circle cx="196" cy="30" r="3.5" fill="var(--airmail)" />
           </svg>
-          <span className="code">{code(to)}</span>
+          <span className="code">{corridor?.destCode ?? "···"}</span>
         </div>
 
         <div className="pass-row">
           <div className="pass-field">
-            <label htmlFor="bp-from">From (city, state)</label>
-            <input
+            <label htmlFor="bp-from">Flying from</label>
+            <select
               id="bp-from"
-              required
-              placeholder="Dallas, TX"
-              value={from}
-              onChange={(e) => setFrom(e.target.value)}
-            />
+              value={origin}
+              onChange={(e) => setOrigin(e.target.value)}
+            >
+              {ORIGINS.map((o) => (
+                <option key={o.code} value={o.code}>
+                  {o.city}
+                </option>
+              ))}
+            </select>
           </div>
           <div className="pass-field">
-            <label htmlFor="bp-to">To (city, state)</label>
-            <input
+            <label htmlFor="bp-to">Destination</label>
+            <select
               id="bp-to"
               required
-              placeholder="Seattle, WA"
-              value={to}
-              onChange={(e) => setTo(e.target.value)}
-            />
+              value={corridorSlug}
+              onChange={(e) => setCorridorSlug(e.target.value)}
+            >
+              <option value="" disabled>
+                Choose a country
+              </option>
+              {CORRIDORS.map((c) => (
+                <option key={c.slug} value={c.slug}>
+                  {c.destination}
+                </option>
+              ))}
+            </select>
           </div>
         </div>
 
@@ -131,16 +143,20 @@ export default function BoardingPass({
             <label htmlFor="bp-pet">Passenger (pet&apos;s name)</label>
             <input
               id="bp-pet"
-              placeholder="Biscuit"
+              placeholder="Simba"
               value={petName}
               onChange={(e) => setPetName(e.target.value)}
             />
           </div>
           <div className="pass-field">
             <label htmlFor="bp-type">Species</label>
-            <select id="bp-type" value={petType} onChange={(e) => setPetType(e.target.value)}>
-              <option value="dog">Dog</option>
+            <select
+              id="bp-type"
+              value={species}
+              onChange={(e) => setSpecies(e.target.value as Species)}
+            >
               <option value="cat">Cat</option>
+              <option value="dog">Dog</option>
               <option value="other">Other</option>
             </select>
           </div>
@@ -148,38 +164,16 @@ export default function BoardingPass({
 
         <div className="pass-row">
           <div className="pass-field">
-            <label htmlFor="bp-size">Size</label>
-            <select
-              id="bp-size"
-              value={size}
-              onChange={(e) => setSize(e.target.value as PetSize)}
-            >
-              <option value="small">Small (under 25 lb)</option>
-              <option value="medium">Medium (25–60 lb)</option>
-              <option value="large">Large (over 60 lb)</option>
-            </select>
+            <label htmlFor="bp-breed">Breed (helps with airline rules)</label>
+            <input
+              id="bp-breed"
+              placeholder="Persian, Labrador…"
+              value={breed}
+              onChange={(e) => setBreed(e.target.value)}
+            />
           </div>
           <div className="pass-field">
-            <label htmlFor="bp-dist">Trip distance</label>
-            <select
-              id="bp-dist"
-              value={bandMiles}
-              onChange={(e) => setBandMiles(Number(e.target.value))}
-            >
-              {DISTANCE_BANDS.map((b) => (
-                <option key={b.label} value={b.miles}>
-                  {b.label}
-                </option>
-              ))}
-            </select>
-          </div>
-        </div>
-
-        <div className="pass-tear" aria-hidden="true" />
-
-        <div className="pass-row">
-          <div className="pass-field">
-            <label htmlFor="bp-date">Travel window</label>
+            <label htmlFor="bp-date">When do you fly?</label>
             <input
               id="bp-date"
               type="date"
@@ -187,34 +181,39 @@ export default function BoardingPass({
               onChange={(e) => setDate(e.target.value)}
             />
           </div>
+        </div>
+
+        <div className="pass-tear" aria-hidden="true" />
+
+        <div className="pass-row">
           <div className="pass-field">
-            <label htmlFor="bp-phone">Phone (optional)</label>
+            <label htmlFor="bp-wa">WhatsApp number</label>
             <input
-              id="bp-phone"
+              id="bp-wa"
               type="tel"
-              placeholder="(555) 010-2233"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
+              placeholder="+92 300 0000000"
+              value={whatsapp}
+              onChange={(e) => setWhatsapp(e.target.value)}
+            />
+          </div>
+          <div className="pass-field">
+            <label htmlFor="bp-email">Email</label>
+            <input
+              id="bp-email"
+              type="email"
+              required
+              placeholder="you@example.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
         </div>
 
-        <div className="pass-field">
-          <label htmlFor="bp-email">Email — where the quote goes</label>
-          <input
-            id="bp-email"
-            type="email"
-            required
-            placeholder="you@example.com"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
-
-        {estimate && (
+        {estimate && corridor && (
           <p className="pass-estimate">
-            Typical range: ${estimate.low.toLocaleString()}–${estimate.high.toLocaleString()} ·
-            confirmed in your emailed quote
+            {corridor.destination} typical range: ${estimate.low.toLocaleString()}–$
+            {estimate.high.toLocaleString()} · {corridor.timeline} · confirmed in
+            your quote
           </p>
         )}
 
@@ -228,7 +227,8 @@ export default function BoardingPass({
           {status === "sending" ? "Sending…" : "Get my quote"}
         </button>
         <p className="pass-note">
-          No payment now. A real person replies with one all-in price.
+          No payment now. A real person replies with a full plan and one all-in
+          price.
         </p>
       </div>
     </form>

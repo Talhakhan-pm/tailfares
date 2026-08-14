@@ -1,36 +1,32 @@
-export type PetSize = "small" | "medium" | "large";
+import { CORRIDORS, type Corridor } from "@/lib/routes";
 
-export type QuoteInput = {
-  miles: number;
-  size: PetSize;
-  solo: boolean; // dedicated ride vs. shared route
-};
+export type Species = "dog" | "cat" | "other";
 
 export type FareEstimate = {
-  low: number; // what we'd quote on the low end, in USD
-  high: number; // high end, in USD
+  low: number; // USD, what we'd quote on the low end
+  high: number; // USD, high end
 };
 
-/**
- * Estimate the fare range shown to a customer before a human quotes the job.
- *
- * This is TailFares' core pricing policy — the spread between what we charge
- * the customer and what we pay the partner driver is the whole business.
- * Market reference points from research (July 2026):
- *   - Marketplaces: driver quote ≈ $0.60–1.00/mile + ~$230 platform fee on 1,400 mi
- *   - White-glove companies: from $1,450 flat, domestic
- *   - Rule of thumb: per-mile rate FALLS as distance grows (a 300-mi trip
- *     can't go below ~$350; a 2,500-mi trip at $1.00/mi would be uncompetitive)
- *
- * TODO(you): implement the estimate. Things to decide:
- *   1. Base rate curve — flat per-mile, tiered bands, or base fee + per-mile?
- *   2. Size multiplier — large dogs cost partners more space/handling.
- *   3. Solo multiplier — dedicated rides typically run 1.5–2x shared.
- *   4. A floor — never show an estimate below your minimum viable job.
- * Return a {low, high} range (round to whole dollars), or null to show
- * "we'll email your quote within 24h" instead of a number.
- */
-export function estimateFare(input: QuoteInput): FareEstimate | null {
-  // TODO: implement pricing policy (see notes above)
-  return null;
+// Cats dodge the heaviest rules on the USA corridor (no CDC dog regime) and
+// generally book cheaper cargo space everywhere. Multipliers are launch
+// values from the Aug 2026 research — tune them as real quotes come in.
+const CAT_DISCOUNT: Record<string, number> = {
+  "pakistan-to-usa": 0.45,
+  "pakistan-to-uk": 0.75,
+  "pakistan-to-uae": 0.8,
+  "pakistan-to-canada": 0.7,
+  "pakistan-to-australia": 0.9,
+};
+
+export function estimateFare(corridor: Corridor, species: Species): FareEstimate {
+  const m = species === "cat" ? CAT_DISCOUNT[corridor.slug] ?? 0.8 : 1;
+  const round50 = (n: number) => Math.round(n / 50) * 50;
+  return {
+    low: round50(corridor.priceLowUsd * m),
+    high: round50(corridor.priceHighUsd * m),
+  };
+}
+
+export function corridorBySlug(slug: string): Corridor | undefined {
+  return CORRIDORS.find((c) => c.slug === slug);
 }

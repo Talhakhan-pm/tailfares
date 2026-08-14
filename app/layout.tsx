@@ -22,12 +22,17 @@ const plexMono = IBM_Plex_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL("https://tailfares.com"),
   title: {
-    default: "TailFares — Door-to-door pet transport with one clear quote",
+    default:
+      "TailFares — Pet relocation from Pakistan to anywhere in the world",
     template: "%s | TailFares",
   },
   description:
-    "TailFares arranges door-to-door ground transport for dogs and cats across the US. One quote, one point of contact, USDA-registered partner drivers.",
+    "TailFares relocates cats and dogs from Pakistan to the UAE, UK, Canada, USA, Australia and beyond. Permits, titer tests, airline booking, and door-to-door coordination from Karachi, Lahore, and Islamabad.",
 };
+
+// Set NEXT_PUBLIC_WHATSAPP (digits only, e.g. 923001234567) to surface the
+// WhatsApp CTA — the primary conversion channel for Pakistani customers.
+const WHATSAPP = process.env.NEXT_PUBLIC_WHATSAPP;
 
 export default function RootLayout({
   children,
@@ -42,11 +47,22 @@ export default function RootLayout({
             </Link>
             <nav className="nav" aria-label="Main">
               <Link href="/#how">How it works</Link>
-              <Link href="/#routes">Routes</Link>
+              <Link href="/#routes">Corridors</Link>
               <Link href="/#faq">FAQ</Link>
-              <Link href="/#quote" className="btn btn-red">
-                Get a quote
-              </Link>
+              {WHATSAPP ? (
+                <a
+                  href={`https://wa.me/${WHATSAPP}`}
+                  className="btn btn-red"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  WhatsApp us
+                </a>
+              ) : (
+                <Link href="/#quote" className="btn btn-red">
+                  Get a quote
+                </Link>
+              )}
             </nav>
           </div>
         </header>
@@ -59,9 +75,19 @@ export default function RootLayout({
                 Tail<em>Fares</em>
               </span>
               <p className="fine">
-                TailFares is a pet transport broker. Transport is carried out by
-                independent, USDA-registered partner drivers. We coordinate the
-                trip, the paperwork, and the updates.
+                TailFares coordinates international pet relocation from
+                Pakistan — permits, health certification, airline booking, and
+                arrival clearance — from Karachi, Lahore, and Islamabad.
+              </p>
+              <p className="fine">
+                Guides:{" "}
+                <Link href="/guides/pet-export-permit-pakistan">
+                  Pet export permit in Pakistan
+                </Link>{" "}
+                ·{" "}
+                <Link href="/guides/rabies-titer-test-pakistan">
+                  Rabies titer test from Pakistan
+                </Link>
               </p>
             </div>
             <div>
