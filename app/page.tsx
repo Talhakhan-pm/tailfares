@@ -201,7 +201,6 @@ export default async function Home({
               className="arc"
               d="M120 330 Q 480 40 960 110"
               strokeWidth="2.5"
-              strokeDasharray="2 9"
               strokeLinecap="round"
               fill="none"
             />

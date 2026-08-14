@@ -541,7 +541,7 @@ summary:focus-visible {
 .s4-line {
   position: absolute;
   left: 28px;
-  top: -130px;
+  top: 0;
   bottom: 0;
   width: 4px;
   pointer-events: none;
@@ -1124,5 +1124,9 @@ summary:focus-visible {
   .landing-stamps {
     flex-direction: column;
     gap: 20px;
+  }
+
+  .nightmap .city-label {
+    font-size: 26px;
   }
 }
