@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TailFares — hero mockup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=Manrope:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #F7F7F5;
+    --card: #FFFFFF;
+    --ink: #111318;
+    --ink-soft: #6B7280;
+    --electric: #2563EB;
+    --electric-soft: #93B4F5;
+    --electric-wash: #EAF1FF;
+    --font-display: "Archivo", sans-serif;
+    --font-body: "Manrope", sans-serif;
+    --font-mono: "IBM Plex Mono", monospace;
+  }
+  * { margin: 0; box-sizing: border-box; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+  }
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    position: relative;
+    overflow: hidden;
+    padding: 0 clamp(20px, 5vw, 72px);
+  }
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 28px 0;
+  }
+  .wordmark {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-stretch: 90%;
+    font-size: 20px;
+    letter-spacing: -0.01em;
+  }
+  .wordmark .dot { color: var(--electric); }
+  nav { display: flex; gap: 32px; align-items: center; }
+  nav a {
+    color: var(--ink);
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 500;
+  }
+  .nav-cta {
+    background: var(--ink);
+    color: var(--paper) !important;
+    padding: 10px 20px;
+    border-radius: 999px;
+  }
+  .stage {
+    display: grid;
+    align-content: center;
+    max-width: 1180px;
+    width: 100%;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+  }
+  h1 {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-stretch: 72%;
+    font-size: clamp(3rem, 9.5vw, 8.5rem);
+    line-height: 0.94;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    max-width: 12ch;
+  }
+  h1 .seat { color: var(--electric); }
+  .sub {
+    margin-top: 28px;
+    font-size: clamp(1.05rem, 1.4vw, 1.25rem);
+    line-height: 1.55;
+    color: var(--ink-soft);
+    max-width: 46ch;
+  }
+  .cta-row { margin-top: 36px; display: flex; gap: 16px; align-items: center; }
+  .btn-primary {
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 16px;
+    background: var(--electric);
+    color: #fff;
+    border: none;
+    padding: 16px 32px;
+    border-radius: 999px;
+    cursor: pointer;
+  }
+  .btn-ghost {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    color: var(--ink);
+    background: none;
+    border: 1px solid var(--ink);
+    padding: 15px 24px;
+    border-radius: 999px;
+    cursor: pointer;
+  }
+  .board {
+    padding: 0 0 40px;
+    max-width: 1180px;
+    margin: 0 auto;
+    width: 100%;
+    position: relative;
+    z-index: 2;
+  }
+  .board-head {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--ink-soft);
+    letter-spacing: 0.08em;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--ink);
+    display: grid;
+    grid-template-columns: 1.2fr 2fr 1fr 1fr;
+    gap: 16px;
+  }
+  .board-row {
+    font-family: var(--font-mono);
+    font-size: clamp(13px, 1.15vw, 15px);
+    display: grid;
+    grid-template-columns: 1.2fr 2fr 1fr 1fr;
+    gap: 16px;
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(17, 19, 24, 0.12);
+    align-items: baseline;
+  }
+  .board-row .route { font-weight: 500; }
+  .board-row .status { color: var(--electric); font-weight: 500; }
+  .flightpath {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+  }
+  @media (max-width: 640px) {
+    nav a:not(.nav-cta) { display: none; }
+    .board-head, .board-row { grid-template-columns: 1fr 1.4fr 1fr; }
+    .board-head span:nth-child(3), .board-row span:nth-child(3) { display: none; }
+  }
+</style>
+</head>
+<body>
+<section class="hero">
+  <svg class="flightpath" viewBox="0 0 1440 900" fill="none" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <path d="M 1130 130 C 1260 210, 1300 340, 1210 450 C 1120 560, 940 560, 860 660 C 800 735, 830 820, 900 910"
+          stroke="#2563EB" stroke-width="2.5" stroke-dasharray="1 10" stroke-linecap="round"/>
+    <circle cx="1130" cy="130" r="5" fill="#2563EB"/>
+    <g transform="translate(1196 306) rotate(128)">
+      <path d="M0 -14 C 1.6 -9 2.4 -5 2.4 -1 L 12 7 L 12 10 L 2.2 6 L 1.6 12 L 4.6 14.6 L 4.6 16.6 L 0 15.4 L -4.6 16.6 L -4.6 14.6 L -1.6 12 L -2.2 6 L -12 10 L -12 7 L -2.4 -1 C -2.4 -5 -1.6 -9 0 -14 Z" fill="#2563EB"/>
+    </g>
+  </svg>
+  <header>
+    <div class="wordmark">tailfares<span class="dot">.</span></div>
+    <nav>
+      <a href="#">Routes</a>
+      <a href="#">Guides</a>
+      <a href="#">How it works</a>
+      <a class="nav-cta" href="#">Get a quote</a>
+    </nav>
+  </header>
+  <div class="stage">
+    <h1>Your pet's <span class="seat">seat</span> is booked.</h1>
+    <p class="sub">Pakistan to anywhere &mdash; vet, permits, cargo, customs, door. One fare, every step handled.</p>
+    <div class="cta-row">
+      <button class="btn-primary">Get a quote</button>
+      <button class="btn-ghost">SEE ROUTES &rarr;</button>
+    </div>
+  </div>
+  <div class="board">
+    <div class="board-head"><span>FLIGHT</span><span>ROUTE</span><span>TRANSIT</span><span>STATUS</span></div>
+    <div class="board-row"><span class="route">TF&middot;011</span><span>KHI &rarr; LHR London</span><span>18&ndash;26h</span><span class="status">BOOKING</span></div>
+    <div class="board-row"><span class="route">TF&middot;014</span><span>KHI &rarr; JFK New York</span><span>22&ndash;30h</span><span class="status">BOOKING</span></div>
+    <div class="board-row"><span class="route">TF&middot;008</span><span>LHE &rarr; DXB Dubai</span><span>6&ndash;10h</span><span class="status">BOOKING</span></div>
+  </div>
+</section>
+</body>
+</html>

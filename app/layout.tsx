@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
-import { Sora, Manrope, IBM_Plex_Mono } from "next/font/google";
+import { Archivo, Manrope, IBM_Plex_Mono } from "next/font/google";
 import Link from "next/link";
 import "./globals.css";
 
-const sora = Sora({
+const archivo = Archivo({
   subsets: ["latin"],
-  variable: "--sora",
+  variable: "--archivo",
+  axes: ["wdth"],
 });
 
 const manrope = Manrope({
@@ -38,7 +39,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${sora.variable} ${manrope.variable} ${plexMono.variable}`}>
+    <html lang="en" className={`${archivo.variable} ${manrope.variable} ${plexMono.variable}`}>
       <body>
         <header className="site-header">
           <div className="wrap">
@@ -67,7 +68,6 @@ export default function RootLayout({
           </div>
         </header>
         {children}
-        <div className="airmail-strip" aria-hidden="true" />
         <footer className="site-footer">
           <div className="wrap">
             <div>

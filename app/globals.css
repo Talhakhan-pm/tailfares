@@ -1,23 +1,21 @@
 :root {
-  --night: #101a30;
-  --night-2: #16223d;
-  --night-deep: #0a1122;
-  --paper: #fbfaf8;
-  --paper-shade: #f3f1ec;
-  --airmail: #d63a35;
-  --airmail-2: #b02622;
-  --sky: #7fb0e8;
-  --tan: #e5ad5e;
-  --ink: #1d2536;
-  --ink-soft: #5b6780;
-  --line: rgba(22, 34, 61, 0.1);
-  --line-strong: rgba(22, 34, 61, 0.16);
-  --ok: #2e7d4f;
+  --paper: #f7f7f5;
+  --card: #ffffff;
+  --ink: #111318;
+  --ink-2: #1c1f26;
+  --ink-soft: #565e6e;
+  --electric: #2563eb;
+  --electric-deep: #1d4fc4;
+  --electric-soft: #93b4f5;
+  --electric-wash: #eaf1ff;
+  --line: rgba(17, 19, 24, 0.1);
+  --line-strong: rgba(17, 19, 24, 0.2);
+  --ok: #1d7a46;
 
-  --radius: 16px;
-  --radius-sm: 10px;
+  --radius: 14px;
+  --radius-sm: 9px;
 
-  --font-display: var(--sora), -apple-system, sans-serif;
+  --font-display: var(--archivo), -apple-system, sans-serif;
   --font-body: var(--manrope), -apple-system, sans-serif;
   --font-mono: var(--plex-mono), "SF Mono", monospace;
 }
@@ -26,10 +24,6 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-}
-
-html {
-  scroll-behavior: smooth;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -57,40 +51,48 @@ a {
   color: inherit;
 }
 
+::selection {
+  background: var(--electric);
+  color: #fff;
+}
+
 /* ---------- layout primitives ---------- */
 .wrap {
-  max-width: 1140px;
+  max-width: 1180px;
   margin: 0 auto;
   padding: 0 28px;
 }
 
+/* the one deliberate kicker style — used sparingly, not on every section */
 .eyebrow {
   font-family: var(--font-mono);
   font-size: 0.72rem;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--airmail);
+  color: var(--ink-soft);
 }
 
 .section {
-  padding: 96px 0;
+  padding: 104px 0;
 }
 
 .section-head {
-  max-width: 600px;
-  margin-bottom: 52px;
+  max-width: 640px;
+  margin-bottom: 56px;
 }
 
-.section-head h2 {
+.section-head h2,
+h2.display {
   font-family: var(--font-display);
-  font-size: clamp(1.7rem, 3.2vw, 2.4rem);
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  line-height: 1.15;
-  margin-top: 12px;
+  font-variation-settings: "wdth" 78;
+  font-size: clamp(1.9rem, 3.6vw, 2.9rem);
+  font-weight: 750;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  line-height: 1.02;
 }
 
-/* ---------- header: transparent, lives inside the hero ---------- */
+/* ---------- header ---------- */
 .site-header {
   position: absolute;
   top: 0;
@@ -103,201 +105,703 @@ a {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 80px;
+  height: 84px;
 }
 
 .logo {
   font-family: var(--font-display);
-  font-weight: 800;
-  font-size: 1.3rem;
+  font-weight: 700;
+  font-size: 1.25rem;
   text-decoration: none;
-  letter-spacing: -0.02em;
-  color: #fff;
+  letter-spacing: -0.015em;
+  color: var(--ink);
 }
 
 .logo em {
   font-style: normal;
-  color: var(--tan);
+  color: var(--electric);
 }
 
 .nav {
   display: flex;
-  gap: 8px;
+  gap: 4px;
   align-items: center;
-  padding: 6px 8px;
-  border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  background: rgba(255, 255, 255, 0.06);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
 }
 
 .nav a {
   text-decoration: none;
-  font-size: 0.92rem;
+  font-size: 0.94rem;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.82);
+  color: var(--ink);
   padding: 8px 16px;
   border-radius: 999px;
-  transition: background 0.15s ease, color 0.15s ease;
+  transition: background 0.15s ease;
 }
 
 .nav a:not(.btn):hover {
-  background: rgba(255, 255, 255, 0.1);
-  color: #fff;
+  background: rgba(17, 19, 24, 0.06);
 }
 
 /* ---------- buttons ---------- */
 .btn {
   display: inline-block;
   font-family: var(--font-body);
-  font-weight: 700;
+  font-weight: 600;
   font-size: 0.95rem;
-  background: var(--night);
+  background: var(--ink);
   color: #fff;
   border: none;
   border-radius: 999px;
-  padding: 13px 26px;
+  padding: 14px 28px;
   cursor: pointer;
   text-decoration: none;
-  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+  transition: background 0.15s ease, transform 0.15s ease;
 }
 
 .btn:hover {
-  background: var(--night-deep);
+  background: var(--ink-2);
   transform: translateY(-1px);
 }
 
-.btn-red {
-  background: linear-gradient(180deg, #e04a42, var(--airmail-2));
-  box-shadow: 0 8px 24px rgba(214, 58, 53, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+/* legacy class name, restyled: the electric CTA */
+.btn-red,
+.btn-electric {
+  background: var(--electric);
 }
 
-.btn-red:hover {
-  background: linear-gradient(180deg, #d13e38, #9c211d);
-  box-shadow: 0 10px 28px rgba(214, 58, 53, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+.btn-red:hover,
+.btn-electric:hover {
+  background: var(--electric-deep);
 }
 
 .btn:focus-visible,
 a:focus-visible,
 input:focus-visible,
-select:focus-visible {
-  outline: 3px solid var(--sky);
+select:focus-visible,
+summary:focus-visible {
+  outline: 3px solid var(--electric-soft);
   outline-offset: 2px;
 }
 
-/* ---------- hero: one surface with the nav ---------- */
-.hero {
+/* =========================================================
+   Scene 1 — departure board (hook)
+   ========================================================= */
+.s1 {
   position: relative;
-  background:
-    radial-gradient(900px 500px at 85% -10%, rgba(127, 176, 232, 0.16), transparent 60%),
-    radial-gradient(700px 420px at -5% 110%, rgba(229, 173, 94, 0.14), transparent 60%),
-    radial-gradient(600px 400px at 40% 120%, rgba(214, 58, 53, 0.1), transparent 55%),
-    linear-gradient(180deg, var(--night-deep) 0%, var(--night) 55%, var(--night-2) 100%);
-  color: #fff;
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: 1fr auto;
   overflow: hidden;
+  background: var(--paper);
 }
 
-/* faint route-map texture */
-.hero::before {
-  content: "";
+.s1 .wrap {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  align-self: center;
+  padding-top: 120px;
+}
+
+.s1 h1 {
+  font-family: var(--font-display);
+  font-variation-settings: "wdth" 70;
+  font-weight: 800;
+  font-size: clamp(3rem, 9vw, 8rem);
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  max-width: 12ch;
+}
+
+.s1 h1 .w {
+  display: inline-block;
+}
+
+.s1 h1 .seat {
+  color: var(--electric);
+}
+
+.s1 .lede {
+  margin-top: 26px;
+  font-size: clamp(1.02rem, 1.4vw, 1.2rem);
+  line-height: 1.55;
+  color: var(--ink-soft);
+  max-width: 48ch;
+}
+
+.s1 .cta-row {
+  margin-top: 34px;
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.btn-ghost {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  letter-spacing: 0.06em;
+  color: var(--ink);
+  background: none;
+  border: 1px solid var(--ink);
+  padding: 13px 22px;
+  border-radius: 999px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.btn-ghost:hover {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+/* departure board */
+.board {
+  position: relative;
+  z-index: 2;
+  padding-bottom: 44px;
+}
+
+.board-head,
+.board-row {
+  display: grid;
+  grid-template-columns: 0.9fr 2fr 1fr 1fr;
+  gap: 16px;
+  font-family: var(--font-mono);
+  align-items: baseline;
+}
+
+.board-head {
+  font-size: 0.7rem;
+  color: var(--ink-soft);
+  letter-spacing: 0.1em;
+  padding-bottom: 11px;
+  border-bottom: 1px solid var(--ink);
+}
+
+.board-row {
+  font-size: clamp(0.82rem, 1.05vw, 0.94rem);
+  padding: 13px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.board-row .status {
+  color: var(--electric);
+  font-weight: 500;
+}
+
+.board-row a {
+  text-decoration: none;
+}
+
+/* hero flight path — two geometries, one per breakpoint */
+.flightpath {
   position: absolute;
   inset: 0;
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
-  background-size: 56px 56px;
-  mask-image: radial-gradient(ellipse 90% 70% at 50% 30%, black 20%, transparent 75%);
+  z-index: 1;
+  width: 100%;
+  height: 100%;
   pointer-events: none;
 }
 
-.hero .wrap {
+.flightpath-mobile {
+  display: none;
+}
+
+@media (max-width: 640px) {
+  .flightpath-desktop {
+    display: none;
+  }
+  .flightpath-mobile {
+    display: block;
+  }
+}
+
+/* =========================================================
+   Scene 2 — preparation (checkpoints on the line)
+   ========================================================= */
+.s2 {
+  position: relative;
+  padding: 120px 0 140px;
+  background: var(--paper);
+  overflow: hidden;
+}
+
+.s2 .wrap {
+  position: relative;
+}
+
+.s2 h2 {
+  margin-bottom: 24px;
+}
+
+.s2-intro {
+  color: var(--ink-soft);
+  max-width: 52ch;
+  margin-bottom: 72px;
+}
+
+.prep-line {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  height: 100%;
+  width: 4px;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.prep-steps {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 470px);
-  gap: 64px;
-  align-items: center;
-  padding-top: 168px;
-  padding-bottom: 110px;
+  gap: 96px;
 }
 
-.hero h1 {
+.prep-step {
+  display: grid;
+  grid-template-columns: 1fr 96px 1fr;
+  align-items: center;
+  gap: 0;
+}
+
+.prep-card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 30px 32px;
+  max-width: 430px;
+}
+
+.prep-step:nth-child(odd) .prep-card {
+  grid-column: 1;
+  justify-self: end;
+}
+
+.prep-step:nth-child(even) .prep-card {
+  grid-column: 3;
+  justify-self: start;
+}
+
+.prep-card h3 {
   font-family: var(--font-display);
-  font-size: clamp(2.3rem, 4.6vw, 3.5rem);
-  font-weight: 800;
-  line-height: 1.06;
-  letter-spacing: -0.03em;
-  margin: 16px 0 22px;
+  font-variation-settings: "wdth" 82;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 1.12rem;
+  letter-spacing: 0.01em;
+  margin-bottom: 8px;
 }
 
-.hero h1 em {
-  font-style: normal;
-  background: linear-gradient(92deg, var(--tan), #f2cf98);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+.prep-card p {
+  color: var(--ink-soft);
+  font-size: 0.95rem;
 }
 
-.hero p.lede {
-  font-size: 1.1rem;
-  color: rgba(255, 255, 255, 0.72);
-  max-width: 46ch;
-  margin-bottom: 30px;
+.prep-card .k {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  color: var(--electric);
+  display: block;
+  margin-bottom: 10px;
 }
 
-.hero .hero-points {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  font-size: 0.96rem;
-  color: rgba(255, 255, 255, 0.88);
-}
-
-.hero .hero-points li {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.hero .hero-points li::before {
-  content: "✓";
-  flex: none;
-  width: 22px;
-  height: 22px;
+.stamp {
+  grid-column: 2;
+  grid-row: 1;
+  justify-self: center;
+  width: 56px;
+  height: 56px;
   border-radius: 50%;
+  background: var(--paper);
+  border: 2px solid var(--ink);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.7rem;
-  font-weight: 800;
-  color: var(--night);
-  background: linear-gradient(135deg, var(--tan), #f2cf98);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--ink);
+  position: relative;
+  z-index: 2;
 }
 
-/* ---------- boarding pass ---------- */
+.stamp.is-stamped {
+  background: var(--electric);
+  border-color: var(--electric);
+  color: #fff;
+}
+
+/* =========================================================
+   Scene 3 — night cargo (the peak)
+   ========================================================= */
+.s3 {
+  position: relative;
+  background: var(--ink);
+  color: var(--paper);
+  overflow: hidden;
+}
+
+.s3-stage {
+  min-height: 100vh;
+  display: grid;
+  align-content: center;
+  position: relative;
+  padding: 90px 0;
+}
+
+.s3 h2 {
+  font-family: var(--font-display);
+  font-variation-settings: "wdth" 74;
+  font-weight: 750;
+  text-transform: uppercase;
+  font-size: clamp(1.7rem, 3.4vw, 2.8rem);
+  line-height: 1.04;
+  letter-spacing: -0.01em;
+  max-width: 22ch;
+  margin: 0 auto 48px;
+  text-align: center;
+  padding: 0 28px;
+}
+
+.nightmap {
+  width: min(1080px, 92vw);
+  margin: 0 auto;
+  display: block;
+}
+
+.nightmap .city-label {
+  font-family: var(--plex-mono), monospace;
+  font-size: 13px;
+  fill: rgba(247, 247, 245, 0.75);
+  letter-spacing: 0.08em;
+}
+
+.nightmap .arc {
+  stroke: var(--electric-soft);
+  filter: drop-shadow(0 0 6px rgba(37, 99, 235, 0.65));
+}
+
+.s3-captions {
+  position: relative;
+  height: 88px;
+  margin-top: 40px;
+}
+
+.s3-caption {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  text-align: center;
+  padding: 0 28px;
+}
+
+.s3-caption p {
+  font-size: clamp(1rem, 1.5vw, 1.2rem);
+  color: rgba(247, 247, 245, 0.85);
+  max-width: 44ch;
+}
+
+.s3-caption .k {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  color: var(--electric-soft);
+  display: block;
+  margin-bottom: 8px;
+}
+
+/* no-JS / reduced-motion: captions stack and all show */
+.no-fx .s3-captions {
+  height: auto;
+  display: grid;
+  gap: 28px;
+}
+
+.no-fx .s3-caption {
+  position: static;
+}
+
+/* =========================================================
+   Scene 4 — landing & proof
+   ========================================================= */
+.s4 {
+  position: relative;
+  padding: 130px 0 60px;
+  background: var(--paper);
+}
+
+.s4 .wrap {
+  position: relative;
+}
+
+.s4-line {
+  position: absolute;
+  left: 28px;
+  top: -130px;
+  bottom: 0;
+  width: 4px;
+  pointer-events: none;
+}
+
+.s4-head {
+  padding-left: 64px;
+  max-width: 720px;
+  margin-bottom: 64px;
+}
+
+.s4-head p {
+  margin-top: 18px;
+  color: var(--ink-soft);
+  max-width: 52ch;
+}
+
+.landing-stamps {
+  padding-left: 64px;
+  display: flex;
+  gap: 40px;
+  flex-wrap: wrap;
+  margin-bottom: 72px;
+}
+
+.landing-stamp {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.landing-stamp .stamp {
+  grid-column: auto;
+  grid-row: auto;
+  width: 48px;
+  height: 48px;
+  font-size: 0.75rem;
+}
+
+.landing-stamp span:last-child {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  letter-spacing: 0.04em;
+}
+
+/* fare table */
+.fares {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-mono);
+  font-size: clamp(0.8rem, 1vw, 0.92rem);
+}
+
+.fares th {
+  text-align: left;
+  font-weight: 500;
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  border-bottom: 1px solid var(--ink);
+  padding: 0 14px 11px;
+}
+
+.fares td {
+  padding: 15px 14px;
+  border-bottom: 1px solid var(--line);
+}
+
+.fares tr:hover td {
+  background: var(--card);
+}
+
+.fares .dest {
+  font-weight: 600;
+}
+
+.fares .range {
+  color: var(--electric);
+  font-weight: 500;
+}
+
+.fares a {
+  text-decoration: none;
+}
+
+.fares-scroll {
+  overflow-x: auto;
+  margin-bottom: 96px;
+}
+
+/* ---------- comparison table (restyled legacy) ---------- */
+.compare-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  font-size: 0.94rem;
+}
+
+.compare-table th,
+.compare-table td {
+  padding: 15px 20px;
+  text-align: left;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+}
+
+.compare-table tbody tr:last-child th,
+.compare-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.compare-table thead th {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  background: var(--ink);
+  color: var(--paper);
+  font-weight: 500;
+}
+
+.compare-table .us {
+  background: var(--electric-wash);
+  font-weight: 600;
+}
+
+.compare-scroll {
+  overflow-x: auto;
+}
+
+/* ---------- routes grid ---------- */
+.routes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 18px;
+}
+
+.route-card {
+  display: block;
+  text-decoration: none;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 22px;
+  background: var(--card);
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+
+.route-card:hover {
+  border-color: var(--electric);
+  transform: translateY(-2px);
+}
+
+.route-card .codes {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 1.05rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.route-card .codes span.arrow {
+  color: var(--electric);
+}
+
+.route-card .cities {
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  margin-top: 6px;
+}
+
+/* ---------- FAQ ---------- */
+.faq-list {
+  display: grid;
+  gap: 12px;
+  max-width: 780px;
+}
+
+.faq-list details {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--card);
+  padding: 18px 22px;
+  transition: border-color 0.15s ease;
+}
+
+.faq-list details:hover {
+  border-color: var(--line-strong);
+}
+
+.faq-list details[open] {
+  border-color: var(--electric);
+}
+
+.faq-list summary {
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.faq-list details p {
+  margin-top: 10px;
+  color: var(--ink-soft);
+}
+
+/* =========================================================
+   Scene 5 — the boarding pass (door)
+   ========================================================= */
+.s5 {
+  padding: 120px 0 140px;
+  background: var(--paper);
+}
+
+.s5 .wrap {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 500px);
+  gap: 72px;
+  align-items: center;
+}
+
+.s5 h2 {
+  font-family: var(--font-display);
+  font-variation-settings: "wdth" 70;
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: clamp(2.4rem, 5.4vw, 4.6rem);
+  line-height: 0.96;
+  letter-spacing: -0.015em;
+}
+
+.s5 .lede {
+  margin-top: 22px;
+  color: var(--ink-soft);
+  max-width: 42ch;
+}
+
+/* ---------- boarding pass (restyled) ---------- */
 .pass {
   position: relative;
-  background: #fff;
+  background: var(--card);
   color: var(--ink);
   border-radius: var(--radius);
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  box-shadow:
-    0 1px 0 rgba(255, 255, 255, 0.6) inset,
-    0 30px 80px rgba(4, 8, 20, 0.55);
+  border: 1px solid var(--line-strong);
   overflow: hidden;
 }
 
 .pass-top {
-  background: linear-gradient(90deg, var(--airmail-2), var(--airmail) 55%, #e0554e);
-  color: #fff;
+  background: var(--ink);
+  color: var(--paper);
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 13px 22px;
   font-family: var(--font-mono);
-  font-size: 0.7rem;
-  letter-spacing: 0.14em;
+  font-size: 0.68rem;
+  letter-spacing: 0.13em;
   text-transform: uppercase;
 }
 
@@ -322,9 +826,9 @@ select:focus-visible {
 .pass-field label {
   font-family: var(--font-mono);
   font-size: 0.64rem;
-  letter-spacing: 0.13em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: #6b7690;
+  color: var(--ink-soft);
 }
 
 .pass-field input,
@@ -334,7 +838,7 @@ select:focus-visible {
   padding: 11px 14px;
   border: 1px solid var(--line-strong);
   border-radius: var(--radius-sm);
-  background: #fbfbfd;
+  background: var(--paper);
   color: var(--ink);
   width: 100%;
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
@@ -342,20 +846,19 @@ select:focus-visible {
 
 .pass-field input:hover,
 .pass-field select:hover {
-  border-color: rgba(22, 34, 61, 0.3);
+  border-color: rgba(17, 19, 24, 0.4);
 }
 
 .pass-field input:focus-visible,
 .pass-field select:focus-visible {
   outline: none;
-  border-color: var(--sky);
-  box-shadow: 0 0 0 3px rgba(127, 176, 232, 0.3);
+  border-color: var(--electric);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.22);
 }
 
-/* perforated tear line */
 .pass-tear {
   position: relative;
-  border-top: 2px dashed rgba(22, 34, 61, 0.15);
+  border-top: 2px dashed var(--line-strong);
   margin: 5px 0;
 }
 
@@ -367,15 +870,16 @@ select:focus-visible {
   width: 22px;
   height: 22px;
   border-radius: 50%;
-  background: var(--night);
+  background: var(--paper);
+  border: 1px solid var(--line-strong);
 }
 
 .pass-tear::before {
-  left: -34px;
+  left: -35px;
 }
 
 .pass-tear::after {
-  right: -34px;
+  right: -35px;
 }
 
 .pass-route {
@@ -400,18 +904,18 @@ select:focus-visible {
 
 .pass-note {
   font-size: 0.84rem;
-  color: #6b7690;
+  color: var(--ink-soft);
 }
 
 .pass-note a {
-  color: var(--airmail);
+  color: var(--electric);
 }
 
 .pass-estimate {
   font-family: var(--font-mono);
-  font-size: 0.88rem;
-  background: linear-gradient(180deg, #fdf7ee, #faf0df);
-  border: 1px solid rgba(229, 173, 94, 0.35);
+  font-size: 0.86rem;
+  background: var(--electric-wash);
+  border: 1px solid rgba(37, 99, 235, 0.3);
   border-radius: var(--radius-sm);
   padding: 11px 14px;
 }
@@ -423,7 +927,7 @@ select:focus-visible {
   gap: 12px;
 }
 
-.pass-success .stamp {
+.pass-success .stamp-ok {
   font-family: var(--font-mono);
   display: inline-block;
   justify-self: center;
@@ -438,189 +942,14 @@ select:focus-visible {
 }
 
 .form-error {
-  color: var(--airmail);
+  color: #b3261e;
   font-size: 0.85rem;
-}
-
-/* ---------- how it works ---------- */
-.journey {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
-  position: relative;
-}
-
-.journey-step {
-  position: relative;
-  background: #fff;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  padding: 30px 28px;
-  box-shadow: 0 1px 2px rgba(16, 26, 48, 0.04);
-  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-}
-
-.journey-step:hover {
-  transform: translateY(-3px);
-  border-color: var(--line-strong);
-  box-shadow: 0 16px 40px rgba(16, 26, 48, 0.09);
-}
-
-.journey-step .dot {
-  width: 34px;
-  height: 34px;
-  border-radius: 12px;
-  background: linear-gradient(135deg, var(--night), var(--night-2));
-  color: #fff;
-  font-family: var(--font-mono);
-  font-size: 0.85rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 18px;
-}
-
-.journey-step:last-child .dot {
-  background: linear-gradient(135deg, #e04a42, var(--airmail-2));
-}
-
-.journey-step h3 {
-  font-family: var(--font-display);
-  font-size: 1.15rem;
-  letter-spacing: -0.01em;
-  margin-bottom: 8px;
-}
-
-.journey-step p {
-  color: #5b6780;
-  font-size: 0.95rem;
-}
-
-/* ---------- comparison table ---------- */
-.compare {
-  background: var(--paper-shade);
-}
-
-.compare-table {
-  width: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
-  background: #fff;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  overflow: hidden;
-  font-size: 0.95rem;
-  box-shadow: 0 1px 2px rgba(16, 26, 48, 0.04);
-}
-
-.compare-table th,
-.compare-table td {
-  padding: 15px 20px;
-  text-align: left;
-  border-bottom: 1px solid var(--line);
-  vertical-align: top;
-}
-
-.compare-table tbody tr:last-child th,
-.compare-table tbody tr:last-child td {
-  border-bottom: none;
-}
-
-.compare-table thead th {
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  letter-spacing: 0.13em;
-  text-transform: uppercase;
-  background: var(--night);
-  color: #fff;
-}
-
-.compare-table .us {
-  background: linear-gradient(180deg, #fdf8ef, #fcf3e2);
-  font-weight: 700;
-}
-
-.compare-scroll {
-  overflow-x: auto;
-}
-
-/* ---------- routes grid ---------- */
-.routes-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 18px;
-}
-
-.route-card {
-  display: block;
-  text-decoration: none;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  padding: 22px;
-  background: #fff;
-  box-shadow: 0 1px 2px rgba(16, 26, 48, 0.04);
-  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-}
-
-.route-card:hover {
-  border-color: var(--line-strong);
-  transform: translateY(-3px);
-  box-shadow: 0 16px 40px rgba(16, 26, 48, 0.1);
-}
-
-.route-card .codes {
-  font-family: var(--font-mono);
-  font-weight: 600;
-  font-size: 1.05rem;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.route-card .codes span.arrow {
-  color: var(--airmail);
-}
-
-.route-card .cities {
-  font-size: 0.85rem;
-  color: #5b6780;
-  margin-top: 6px;
-}
-
-/* ---------- FAQ ---------- */
-.faq-list {
-  display: grid;
-  gap: 12px;
-  max-width: 780px;
-}
-
-.faq-list details {
-  border: 1px solid var(--line);
-  border-radius: var(--radius-sm);
-  background: #fff;
-  padding: 18px 22px;
-  box-shadow: 0 1px 2px rgba(16, 26, 48, 0.04);
-  transition: border-color 0.2s ease;
-}
-
-.faq-list details:hover {
-  border-color: var(--line-strong);
-}
-
-.faq-list summary {
-  font-weight: 700;
-  cursor: pointer;
-}
-
-.faq-list details p {
-  margin-top: 10px;
-  color: #5b6780;
 }
 
 /* ---------- footer ---------- */
 .site-footer {
-  background: linear-gradient(180deg, var(--night) 0%, var(--night-deep) 100%);
-  color: rgba(255, 255, 255, 0.65);
+  background: var(--ink);
+  color: rgba(247, 247, 245, 0.65);
   padding: 60px 0 44px;
   font-size: 0.92rem;
 }
@@ -633,50 +962,42 @@ select:focus-visible {
 }
 
 .site-footer .logo {
-  color: #fff;
+  color: var(--paper);
+}
+
+.site-footer .logo em {
+  color: var(--electric-soft);
 }
 
 .site-footer a {
-  color: rgba(255, 255, 255, 0.75);
+  color: rgba(247, 247, 245, 0.8);
 }
 
 .site-footer .fine {
   margin-top: 12px;
   max-width: 46ch;
   font-size: 0.8rem;
-  color: rgba(255, 255, 255, 0.4);
+  color: rgba(247, 247, 245, 0.45);
 }
 
-/* airmail chevron, kept as a slim brand accent above the footer */
-.airmail-strip {
-  height: 8px;
-  background: repeating-linear-gradient(
-    -45deg,
-    var(--airmail) 0 14px,
-    var(--paper) 14px 24px,
-    var(--night) 24px 38px,
-    var(--paper) 38px 48px
-  );
-}
-
-/* ---------- route detail page ---------- */
+/* ---------- route detail pages ---------- */
 .route-hero {
   position: relative;
-  background:
-    radial-gradient(700px 400px at 90% -20%, rgba(127, 176, 232, 0.15), transparent 60%),
-    linear-gradient(180deg, var(--night-deep) 0%, var(--night) 70%, var(--night-2) 100%);
-  color: #fff;
-  padding: 160px 0 80px;
+  background: var(--paper);
+  border-bottom: 1px solid var(--line);
+  padding: 170px 0 70px;
   overflow: hidden;
 }
 
 .route-hero h1 {
   font-family: var(--font-display);
-  font-size: clamp(1.9rem, 4vw, 2.7rem);
+  font-variation-settings: "wdth" 72;
   font-weight: 800;
-  letter-spacing: -0.025em;
-  line-height: 1.1;
-  margin: 14px 0 22px;
+  text-transform: uppercase;
+  font-size: clamp(2rem, 4.6vw, 3.4rem);
+  letter-spacing: -0.015em;
+  line-height: 1.02;
+  margin: 14px 0 26px;
 }
 
 .route-facts {
@@ -687,19 +1008,18 @@ select:focus-visible {
 
 .route-facts > div {
   font-family: var(--font-mono);
-  font-size: 0.8rem;
-  color: rgba(255, 255, 255, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  background: rgba(255, 255, 255, 0.06);
-  backdrop-filter: blur(10px);
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+  border: 1px solid var(--line-strong);
+  background: var(--card);
   border-radius: var(--radius-sm);
   padding: 14px 20px;
 }
 
 .route-facts strong {
   display: block;
-  font-size: 1.25rem;
-  color: #fff;
+  font-size: 1.2rem;
+  color: var(--ink);
 }
 
 .prose {
@@ -708,14 +1028,17 @@ select:focus-visible {
 
 .prose h2 {
   font-family: var(--font-display);
-  font-size: 1.45rem;
-  letter-spacing: -0.015em;
+  font-variation-settings: "wdth" 80;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 1.35rem;
+  letter-spacing: 0;
   margin: 32px 0 12px;
 }
 
 .prose p {
   margin-bottom: 14px;
-  color: #5b6780;
+  color: var(--ink-soft);
 }
 
 .prose .cta-block {
@@ -724,26 +1047,72 @@ select:focus-visible {
 
 /* ---------- responsive ---------- */
 @media (max-width: 900px) {
-  .hero .wrap {
-    grid-template-columns: 1fr;
-    padding-top: 140px;
-    padding-bottom: 72px;
-  }
-
-  .journey {
-    grid-template-columns: 1fr;
-  }
-
   .section {
-    padding: 64px 0;
+    padding: 72px 0;
+  }
+
+  .prep-step {
+    grid-template-columns: 56px 1fr;
+  }
+
+  .prep-line {
+    left: 28px;
+    transform: none;
+  }
+
+  .prep-step .stamp,
+  .prep-step:nth-child(odd) .stamp,
+  .prep-step:nth-child(even) .stamp {
+    grid-column: 1;
+    justify-self: start;
+  }
+
+  .prep-step:nth-child(odd) .prep-card,
+  .prep-step:nth-child(even) .prep-card {
+    grid-column: 2;
+    justify-self: start;
+    margin-left: 20px;
+    max-width: none;
+  }
+
+  .prep-steps {
+    gap: 56px;
+  }
+
+  .s4-line {
+    left: 12px;
+  }
+
+  .s4-head,
+  .landing-stamps {
+    padding-left: 36px;
+  }
+
+  .s5 .wrap {
+    grid-template-columns: 1fr;
+    gap: 48px;
   }
 
   .route-hero {
-    padding-top: 130px;
+    padding-top: 140px;
   }
 }
 
-@media (max-width: 560px) {
+@media (max-width: 640px) {
+  .s1 .wrap {
+    padding-top: 110px;
+  }
+
+  .board-head,
+  .board-row {
+    grid-template-columns: 1fr 1.6fr 1fr;
+  }
+
+  .board-head span:nth-child(3),
+  .board-row span:nth-child(3) {
+    display: none;
+  }
+
   .pass-row {
     grid-template-columns: 1fr;
   }
@@ -752,11 +1121,8 @@ select:focus-visible {
     display: none;
   }
 
-  .nav {
-    border: none;
-    background: none;
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-    padding: 0;
+  .landing-stamps {
+    flex-direction: column;
+    gap: 20px;
   }
 }

@@ -66,7 +66,7 @@ export default function BoardingPass({
           <span>№ pending</span>
         </div>
         <div className="pass-success">
-          <span className="stamp">Request received</span>
+          <span className="stamp-ok">Request received</span>
           <p>
             {petName ? `${petName} is` : "You're"} on the manifest. We&apos;ll
             reply on WhatsApp {whatsapp ? "" : "or email "}within 24 hours with
@@ -93,12 +93,12 @@ export default function BoardingPass({
             <path
               d="M4 30 Q 100 -8 196 30"
               fill="none"
-              stroke="var(--airmail)"
+              stroke="var(--electric)"
               strokeWidth="2"
               strokeDasharray="5 5"
             />
-            <circle cx="4" cy="30" r="3.5" fill="var(--night)" />
-            <circle cx="196" cy="30" r="3.5" fill="var(--airmail)" />
+            <circle cx="4" cy="30" r="3.5" fill="var(--ink)" />
+            <circle cx="196" cy="30" r="3.5" fill="var(--electric)" />
           </svg>
           <span className="code">{corridor?.destCode ?? "···"}</span>
         </div>
