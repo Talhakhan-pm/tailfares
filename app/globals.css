@@ -132,10 +132,17 @@ h2.display {
   text-decoration: none;
   font-size: 0.94rem;
   font-weight: 600;
-  color: var(--ink);
   padding: 8px 16px;
   border-radius: 999px;
   transition: background 0.15s ease;
+}
+
+.nav a:not(.btn) {
+  color: var(--ink);
+}
+
+.nav a.btn {
+  color: #fff;
 }
 
 .nav a:not(.btn):hover {
