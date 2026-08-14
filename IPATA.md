@@ -16,8 +16,8 @@ requirements are complete — that listing is the B2B flywheel.
 |---|---|
 | Application fee (non-refundable) | $1,000 |
 | Annual dues (2026) | $1,275 |
-| IATA Live Animals Regulations (LAR) training, 1 staff member | ~$300–500 (valid 36 months) |
-| **Year-one total** | **~$2,600–2,800 (~PKR 730–790k)** |
+| IATA Live Animals Regulations (LAR) training, 1 staff member | $300 (developing-nations e-book rate, course CGC009EBEN01; exam 60 MCQ / 80% pass / 2 attempts; cert valid 36 months) |
+| **Year-one total** | **~$2,575 (~PKR 720k)** |
 
 Realistic path to submitted application: **2–4 months** (bottleneck below).
 Then a 1-year provisional period: New Member Basics certification + exam
