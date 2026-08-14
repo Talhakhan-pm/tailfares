@@ -4,11 +4,11 @@ Decided 2026-08-14. Full visual revamp: new palette + cinematic scroll-driven la
 
 ## Decisions (locked)
 
-- **Palette**: white base, deep flight-blue, lime accent
+- **Palette**: white base, deep flight-blue, violet accent
   - `--paper: #FFFFFF` / off-white section tint `#F6F8FC`
   - `--flight-blue: #0B3B8C` (headings, dark sections, footer)
   - `--sky-blue: #2E6BD6` (flight path, links, secondary UI)
-  - `--lime: #C6F035` (CTAs, journey checkpoints, highlights) — text on lime: `#2A3803`
+  - `--violet: #8B5CF6` (CTAs, journey checkpoints, highlights) — text on violet: `#F4F0FF`
   - Old "vintage airmail" palette (navy/cream/red/tan) is fully retired
 - **Scroll story**: **The Journey** — an animated flight path draws down the page as you scroll.
   Pet leaves home (Karachi) → checkpoints pin content sections → lands abroad.
