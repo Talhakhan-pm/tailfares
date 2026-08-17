@@ -223,8 +223,10 @@ export default function Director() {
         const s4Line = document.querySelector<SVGPathElement>(
           ".s4-line .draw-path"
         );
+        // start/end at 55% of the viewport so the drawn tip always sits
+        // just above the reader's eye line as the section scrolls through
         const s4 = document.querySelector(".s4");
-        if (s4Line && s4) drawPath(s4Line, s4, "top 80%", "center 40%");
+        if (s4Line && s4) drawPath(s4Line, s4, "top 55%", "bottom 55%");
 
         document.querySelectorAll(".landing-stamp .stamp").forEach((stamp) => {
           ScrollTrigger.create({
