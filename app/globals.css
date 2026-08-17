@@ -971,124 +971,125 @@ summary:focus-visible {
   overflow: hidden;
 }
 
-.biz-plane-btn {
+/* tear-off stub */
+.tear-wrap {
+  position: relative;
+}
+
+.tear-zone {
+  position: relative;
   display: block;
-  background: none;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-  text-align: left;
-  margin-bottom: 18px;
-  transition: opacity 0.15s ease;
+  padding: 14px 28px;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
-.biz-plane-btn.is-hidden {
-  opacity: 0;
+.tear-zone.tearing {
+  cursor: grabbing;
 }
 
-.biz-plane-btn .biz-plane {
-  margin-bottom: 6px;
-  animation: biz-bob 3s ease-in-out infinite;
+.tear-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  border-top: 2px dashed var(--line-strong);
 }
 
-@keyframes biz-bob {
-  0%,
-  100% {
-    transform: rotate(45deg) translateY(0);
-  }
-  50% {
-    transform: rotate(45deg) translateY(-4px);
-  }
+.tear-zone::before,
+.tear-zone::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 22px;
+  height: 22px;
+  margin-top: -11px;
+  border-radius: 50%;
+  background: var(--paper);
+  border: 1px solid var(--line-strong);
 }
 
-.biz-hint {
+.tear-zone::before {
+  left: -12px;
+}
+
+.tear-zone::after {
+  right: -12px;
+}
+
+.tear-hint {
+  position: relative;
+  z-index: 1;
   display: block;
+  text-align: center;
   font-family: var(--font-mono);
   font-size: 0.6rem;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.16em;
+  color: var(--ink-soft);
+  background: var(--card);
+  width: fit-content;
+  margin: 0 auto;
+  padding: 0 12px;
+}
+
+.tear-stub {
+  padding: 6px 28px 26px;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+  will-change: transform;
+}
+
+.stub-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.1em;
   color: var(--ink-soft);
 }
 
-.biz-flyer {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 40px;
-  height: 40px;
-  z-index: 3;
-  pointer-events: none;
-  offset-path: path(
-    "M 46 210 C 140 60, 300 40, 390 120 C 460 190, 380 320, 240 340 C 120 358, 40 300, 46 210"
-  );
-  offset-rotate: auto 90deg;
-  animation: biz-fly 1.8s cubic-bezier(0.45, 0, 0.35, 1) forwards;
+.stub-barcode {
+  width: 110px;
+  height: 24px;
+  flex: none;
 }
 
-.biz-flyer svg {
-  width: 100%;
-  height: 100%;
+.tear-reveal {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.45s cubic-bezier(0.2, 0.9, 0.3, 1);
 }
 
-@keyframes biz-fly {
-  0% {
-    offset-distance: 0%;
-    opacity: 0;
-  }
-  8% {
-    opacity: 1;
-  }
-  92% {
-    opacity: 1;
-  }
-  100% {
-    offset-distance: 100%;
-    opacity: 0;
-  }
+.tear-reveal.open {
+  grid-template-rows: 1fr;
 }
 
-.biz-stamp {
-  position: absolute;
-  top: 84px;
-  right: 18px;
-  z-index: 4;
-  font-family: var(--font-mono);
-  font-size: 0.62rem;
-  letter-spacing: 0.12em;
-  color: var(--electric);
-  border: 2.5px solid var(--electric);
-  border-radius: 8px;
-  padding: 7px 11px;
-  max-width: 150px;
-  text-align: center;
-  transform: rotate(-7deg) scale(0.6);
-  opacity: 0;
-  pointer-events: none;
+.tear-reveal-inner {
+  overflow: hidden;
+  padding: 0 28px;
 }
 
-.biz-stamp.show {
-  animation: biz-stamp-in 0.35s cubic-bezier(0.2, 1.4, 0.4, 1) forwards;
+.tear-reveal.open .tear-reveal-inner {
+  padding-bottom: 28px;
 }
 
-@keyframes biz-stamp-in {
-  0% {
-    transform: rotate(4deg) scale(1.5);
-    opacity: 0;
-  }
-  100% {
-    transform: rotate(-7deg) scale(1);
-    opacity: 1;
-  }
+.manifest {
+  font-family: var(--font-display);
+  font-variation-settings: "wdth" 76;
+  font-weight: 750;
+  text-transform: uppercase;
+  font-size: 1.15rem;
+  letter-spacing: 0.01em;
+  margin: 8px 0 16px;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .biz-plane-btn .biz-plane {
-    animation: none;
-  }
-
-  .biz-stamp.show {
-    animation: none;
-    transform: rotate(-7deg) scale(1);
-    opacity: 1;
+  .tear-stub,
+  .tear-reveal {
+    transition: none;
   }
 }
 
@@ -1151,7 +1152,7 @@ summary:focus-visible {
 .biz-meta {
   margin-top: 26px;
   padding-top: 20px;
-  border-top: 2px dashed var(--line-strong);
+  border-top: 1px solid var(--line);
   display: grid;
   gap: 8px;
   font-family: var(--font-mono);

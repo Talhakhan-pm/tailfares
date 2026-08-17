@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import CardPlane from "@/components/CardPlane";
+import TicketTear from "@/components/TicketTear";
 
 export const metadata: Metadata = {
   title: "Talha Khan — TailFares",
@@ -17,7 +17,6 @@ export default function Card() {
           <span>KHI ⇄ WORLD</span>
         </div>
         <div className="biz-body">
-          <CardPlane />
           <h1>Talha Khan</h1>
           <p className="biz-title">Founder, TailFares</p>
           <p className="biz-line">
@@ -25,9 +24,6 @@ export default function Card() {
             customs, door.
           </p>
           <div className="biz-actions">
-            <a className="btn btn-electric" href="/talha-khan.vcf" download>
-              Save contact
-            </a>
             <a
               className="btn"
               href="https://wa.me/19793002736"
@@ -50,6 +46,7 @@ export default function Card() {
             </a>
           </div>
         </div>
+        <TicketTear />
       </div>
     </main>
   );
