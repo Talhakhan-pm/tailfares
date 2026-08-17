@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Hassan Qureshi · TailFares — Business Card</title>
+<meta name="theme-color" content="#f7f7f5"/>
+<meta name="robots" content="noindex"/>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-12 -12 24 24'%3E%3Cg fill='%232563eb'%3E%3Cellipse cx='0' cy='5.5' rx='6.5' ry='5.5'/%3E%3Cellipse cx='-7.5' cy='-2.5' rx='3' ry='4'/%3E%3Cellipse cx='-2.5' cy='-6.5' rx='3' ry='4.2'/%3E%3Cellipse cx='3' cy='-6.5' rx='3' ry='4.2'/%3E%3Cellipse cx='8' cy='-2.5' rx='3' ry='4'/%3E%3C/g%3E%3C/svg%3E"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800&family=Manrope:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  :root{
+    --paper:#f7f7f5; --card-w:#fff;
+    --ink:#111318; --ink-2:#1c1f26; --ink-soft:#565e6e;
+    --electric:#2563eb; --electric-deep:#1d4fc4; --electric-soft:#93b4f5; --electric-wash:#eaf1ff;
+    --ok:#1d7a46; --err:#b3261e;
+    --line:rgba(17,19,24,.10); --line-strong:rgba(17,19,24,.20);
+    --font-display:'Archivo',-apple-system,sans-serif;
+    --font-body:'Manrope',-apple-system,sans-serif;
+    --font-mono:'IBM Plex Mono','SF Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  ::selection{background:var(--electric);color:#fff}
+  html,body{height:100%}
+  body{
+    font-family:var(--font-body); color:var(--ink);
+    background:linear-gradient(165deg,var(--electric-wash) 0%,var(--paper) 46%,#eef0ea 100%);
+    min-height:100vh; display:grid; place-items:center; padding:56px 20px; overflow-x:hidden;
+  }
+  body::before{ /* faint dot-grid paper texture */
+    content:""; position:fixed; inset:0; pointer-events:none;
+    background-image:radial-gradient(rgba(17,19,24,.055) 1px,transparent 1px);
+    background-size:22px 22px;
+  }
+  .blob{position:fixed;border-radius:50%;filter:blur(90px);pointer-events:none;z-index:0}
+  .blob-a{width:44vmax;height:44vmax;left:-12vmax;top:-14vmax;background:radial-gradient(circle,#93b4f566,transparent 70%);animation:drift 34s ease-in-out infinite alternate}
+  .blob-b{width:36vmax;height:36vmax;right:-10vmax;bottom:-12vmax;background:radial-gradient(circle,#2563eb22,transparent 70%);animation:drift 28s ease-in-out infinite alternate-reverse}
+  @keyframes drift{from{transform:translate(0,0) scale(1)}to{transform:translate(4vmax,3vmax) scale(1.12)}}
+
+  .pawbg{position:fixed;bottom:-60px;z-index:0;pointer-events:none;opacity:0;
+    animation:pawRise linear infinite;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-12 -12 24 24'%3E%3Cg fill='%23111318'%3E%3Cellipse cx='0' cy='5.5' rx='6.5' ry='5.5'/%3E%3Cellipse cx='-7.5' cy='-2.5' rx='3' ry='4'/%3E%3Cellipse cx='-2.5' cy='-6.5' rx='3' ry='4.2'/%3E%3Cellipse cx='3' cy='-6.5' rx='3' ry='4.2'/%3E%3Cellipse cx='8' cy='-2.5' rx='3' ry='4'/%3E%3C/g%3E%3C/svg%3E");
+    background-repeat:no-repeat;
+  }
+  @keyframes pawRise{
+    0%{transform:translateY(0) rotate(-8deg);opacity:0}
+    8%{opacity:var(--o,.08)}
+    85%{opacity:var(--o,.08)}
+    100%{transform:translateY(-118vh) rotate(14deg);opacity:0}
+  }
+
+  .stage{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;animation:cardIn .9s cubic-bezier(.2,.9,.25,1.12) both}
+  @keyframes cardIn{from{opacity:0;transform:translateY(52px) rotate(-4deg) scale(.94)}}
+
+  .scene{perspective:1300px;touch-action:manipulation}
+  .tilt{transition:transform .16s ease-out;transform-style:preserve-3d;will-change:transform}
+  .card{
+    position:relative;width:560px;height:320px;cursor:pointer;user-select:-webkit-user-select;user-select:none;
+    transform-style:preserve-3d;
+    transition:transform .85s cubic-bezier(.3,1.35,.35,1);
+    border-radius:18px;
+    box-shadow:0 34px 68px -24px rgba(17,19,24,.42),0 4px 14px -6px rgba(17,19,24,.18);
+  }
+  .card:focus-visible{outline:3px solid var(--electric);outline-offset:6px}
+  .card.flipped{transform:rotateY(180deg)}
+  .face{
+    position:absolute;inset:0;border-radius:inherit;overflow:hidden;
+    -webkit-backface-visibility:hidden;backface-visibility:hidden;
+    display:flex;flex-direction:column;
+  }
+  /* WebKit backface bleed fix: hard-hide the away-facing side at the flip midpoint */
+  .card .face{transition:opacity 0s linear .32s}
+  .card.flipped .face.front{opacity:0;pointer-events:none}
+  .card:not(.flipped) .face.back{opacity:0;pointer-events:none}
+  .face.front{
+    background:linear-gradient(160deg,#ffffff 0%,var(--paper) 78%);
+    box-shadow:inset 0 0 0 1px var(--line);
+    padding:26px 28px 14px;
+  }
+  .face.back{
+    transform:rotateY(180deg);color:var(--paper);
+    background:radial-gradient(640px 320px at 82% -12%,rgba(29,79,196,.38),transparent 60%),var(--ink);
+    box-shadow:inset 0 0 0 1px rgba(247,247,245,.12);
+    padding:22px 28px 16px;
+  }
+  .glare{
+    position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:6;
+    background:radial-gradient(300px circle at var(--mx,50%) var(--my,38%),rgba(255,255,255,.30),rgba(255,255,255,0) 58%);
+    opacity:0;transition:opacity .3s;
+  }
+  .scene:hover .glare{opacity:1}
+
+  /* ---------- FRONT ---------- */
+  .f-top{display:flex;justify-content:space-between;align-items:center;animation:fadeDown .55s .18s both}
+  .logo{display:flex;align-items:center;gap:8px;font-family:var(--font-display);font-weight:800;font-size:20px;letter-spacing:-.01em}
+  .logo svg{width:21px;height:21px}
+  .logo em{font-style:normal;color:var(--electric)}
+  .chip{
+    font-family:var(--font-mono);font-size:9px;letter-spacing:.15em;color:var(--ink-soft);
+    background:var(--card-w);border:1px solid var(--line-strong);border-radius:999px;padding:5px 11px;
+  }
+  .f-id{margin-top:22px;max-width:330px;position:relative;z-index:2}
+  .name{font-family:var(--font-display);font-weight:800;font-size:35px;line-height:1.04;letter-spacing:-.02em;animation:fadeUp .55s .3s both}
+  .role{margin-top:8px;font-weight:700;font-size:14px;color:var(--electric);animation:fadeUp .55s .42s both}
+  .role-sub{margin-top:3px;font-size:12px;color:var(--ink-soft);animation:fadeUp .55s .52s both}
+
+  .stamp-wrap{
+    position:absolute;right:22px;top:52px;width:132px;height:132px;color:var(--ok);z-index:3;
+    transform:rotate(-12deg);opacity:.92;mix-blend-mode:multiply;
+    animation:stampIn .6s cubic-bezier(.2,1.5,.4,1) .95s both;
+  }
+  @keyframes stampIn{from{opacity:0;transform:rotate(-2deg) scale(2.1)}to{opacity:.92;transform:rotate(-12deg) scale(1)}}
+  .stamp-wrap .ring{animation:spin 26s linear infinite;transform-origin:60px 60px}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .stamp-wrap text{font-family:var(--font-mono);font-size:8.4px;letter-spacing:1.6px;fill:currentColor}
+
+  .route{width:100%;height:62px;margin-top:auto;display:block;animation:fadeUp .6s .62s both}
+  .route .path{stroke:var(--electric-soft);stroke-width:2;stroke-linecap:round;fill:none;stroke-dasharray:.1 8}
+  .plane{filter:drop-shadow(0 2px 3px rgba(37,99,235,.35))}
+  .pawstep{transform-box:fill-box;transform-origin:center;transform:scale(.72);animation:pawStep 3.6s ease-in-out infinite}
+  .pawstep.p2{animation-delay:1.2s}.pawstep.p3{animation-delay:2.4s}
+  @keyframes pawStep{0%,55%,100%{opacity:0}12%,40%{opacity:.85}}
+
+  .ticker{border-top:1px dashed var(--line-strong);margin-top:10px;padding-top:8px;overflow:hidden;animation:fadeUp .5s .8s both}
+  .ticker-track{display:inline-flex;white-space:nowrap;font-family:var(--font-mono);font-size:10px;letter-spacing:.2em;color:var(--ink-soft);animation:tickerMove 22s linear infinite}
+  .ticker-track span{padding-right:2.4rem}
+  @keyframes tickerMove{to{transform:translateX(-50%)}}
+
+  @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}}
+  @keyframes fadeDown{from{opacity:0;transform:translateY(-10px)}}
+
+  /* ---------- BACK ---------- */
+  .b-top{display:flex;justify-content:space-between;align-items:flex-start}
+  .b-top h2{font-family:var(--font-display);font-weight:800;font-size:21px;letter-spacing:.01em;color:#f7f7f5}
+  .b-sub{font-family:var(--font-mono);font-size:8.4px;letter-spacing:.16em;color:var(--electric-soft);margin-top:5px}
+  .b-flight{text-align:right}
+  .b-no{font-family:var(--font-mono);font-weight:600;font-size:20px;color:var(--electric)}
+  .b-seat{display:block;font-family:var(--font-mono);font-size:9px;letter-spacing:.14em;color:rgba(247,247,245,.55);margin-top:3px}
+
+  .b-grid{margin-top:12px;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .crow{
+    display:flex;align-items:center;gap:10px;padding:6px 11px;border-radius:10px;
+    background:rgba(247,247,245,.06);border:1px solid rgba(247,247,245,.13);
+    opacity:0;
+  }
+  .crow.wide{grid-column:1/-1;background:rgba(37,99,235,.16);border-color:rgba(147,180,245,.35)}
+  a.crow{text-decoration:none;cursor:pointer;transition:background .15s,border-color .15s}
+  a.crow:hover{background:rgba(37,99,235,.22);border-color:var(--electric-soft)}
+  .card.flipped .crow{animation:rowIn .55s cubic-bezier(.2,.8,.3,1) both}
+  .card.flipped .crow:nth-child(1){animation-delay:.10s}
+  .card.flipped .crow:nth-child(2){animation-delay:.18s}
+  .card.flipped .crow:nth-child(3){animation-delay:.26s}
+  .card.flipped .crow:nth-child(4){animation-delay:.34s}
+  .card.flipped .crow:nth-child(5){animation-delay:.42s}
+  @keyframes rowIn{from{opacity:0;transform:translateX(-16px)}to{opacity:1}}
+  .crow .ic{
+    flex:0 0 27px;height:27px;display:grid;place-items:center;border-radius:8px;
+    background:rgba(37,99,235,.24);color:var(--electric-soft);
+  }
+  .crow .ic svg{width:14px;height:14px}
+  .c-label{font-family:var(--font-mono);font-size:8px;letter-spacing:.16em;color:rgba(247,247,245,.5)}
+  .c-value{display:block;margin-top:1px;font-size:13px;font-weight:600;color:#f7f7f5;text-decoration:none}
+  a.c-value:hover{color:var(--electric-soft);text-decoration:underline;text-underline-offset:3px}
+
+  .b-bar{position:relative;margin-top:10px;height:40px;border-radius:9px;background:rgba(247,247,245,.05);border:1px solid rgba(247,247,245,.14);padding:7px 12px;overflow:hidden}
+  #barcode{display:flex;align-items:stretch;height:100%}
+  #barcode span{background:rgba(247,247,245,.9);margin-right:1.6px;min-width:1px}
+  .scanline{
+    position:absolute;top:0;bottom:0;left:-15%;width:64px;pointer-events:none;
+    background:linear-gradient(90deg,transparent,rgba(37,99,235,.55),rgba(147,180,245,.75),transparent);
+    animation:scan 2.7s cubic-bezier(.45,0,.55,1) infinite;
+  }
+  @keyframes scan{to{left:100%}}
+  .b-note{margin-top:10px;font-family:var(--font-mono);font-size:8.6px;letter-spacing:.1em;color:rgba(247,247,245,.55)}
+
+  /* ---------- CONTROLS ---------- */
+  .hint{margin-top:26px;font-family:var(--font-mono);font-size:10.5px;letter-spacing:.14em;color:var(--ink-soft);animation:fadeUp .5s 1.3s both}
+  .actions{margin-top:14px;display:flex;gap:10px;flex-wrap:wrap;justify-content:center;animation:fadeUp .5s 1.45s both}
+  .actions button{
+    font-family:var(--font-mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;
+    padding:10px 18px;border-radius:999px;border:1px solid var(--line-strong);background:var(--card-w);color:var(--ink);
+    cursor:pointer;transition:transform .15s,background .15s,border-color .15s,color .15s;
+  }
+  .actions button:hover{transform:translateY(-2px);border-color:var(--electric);color:var(--electric);background:var(--electric-wash)}
+  .actions button.primary{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+  .actions button.primary:hover{background:var(--electric);border-color:var(--electric);color:#fff}
+  .edit-note{margin-top:14px;font-family:var(--font-mono);font-size:9.5px;letter-spacing:.06em;color:var(--ink-soft);opacity:.7;animation:fadeUp .5s 1.6s both}
+
+  /* ---------- PRINT ---------- */
+  @page{margin:.5in}
+  @media print{
+    body{display:block;padding:0;background:#fff}
+    body::before,.blob,.pawbg,.hint,.actions,.edit-note{display:none!important}
+    .scene{perspective:none;animation:none}
+    .stage{animation:none}
+    .tilt{transform:none!important}
+    .card{transition:none;transform:none;cursor:default;box-shadow:none;width:560px;height:auto}
+    .face{position:relative;inset:auto;transform:none;-webkit-backface-visibility:visible;backface-visibility:visible;height:320px;page-break-inside:avoid}
+    .face.back{margin-top:16px}
+    .glare,.scanline{display:none}
+    .crow{opacity:1!important;animation:none!important}
+  }
+
+  /* static mobile fallback so the layout never overflows pre-JS (JS refines the exact scale) */
+  @media (max-width:600px){
+    .scene{transform:scale(.6);margin:-64px -112px}
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  }
+</style>
+</head>
+<body>
+
+<div class="blob blob-a" aria-hidden="true"></div>
+<div class="blob blob-b" aria-hidden="true"></div>
+<div class="bg-paws" id="bgPaws" aria-hidden="true"></div>
+
+<!-- shared paw symbol -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <g id="paw">
+      <ellipse cx="0" cy="5.5" rx="6.5" ry="5.5"/>
+      <ellipse cx="-7.5" cy="-2.5" rx="3" ry="4"/>
+      <ellipse cx="-2.5" cy="-6.5" rx="3" ry="4.2"/>
+      <ellipse cx="3" cy="-6.5" rx="3" ry="4.2"/>
+      <ellipse cx="8" cy="-2.5" rx="3" ry="4"/>
+    </g>
+  </defs>
+</svg>
+
+<main class="stage">
+  <div class="scene" id="scene">
+    <div class="tilt" id="tilt">
+      <div class="card" id="card" role="button" tabindex="0" aria-pressed="false"
+           aria-label="Business card — activate to flip over">
+
+        <!-- ============ FRONT ============ -->
+        <section class="face front" aria-hidden="false">
+          <header class="f-top">
+            <div class="logo">
+              <svg viewBox="-12 -12 24 24" aria-hidden="true"><use href="#paw" fill="var(--electric)"/></svg>
+              Tail<em>Fares</em>
+            </div>
+            <div class="chip">DOOR-TO-DOOR · WORLDWIDE</div>
+          </header>
+
+          <div class="f-id">
+            <h1 class="name" data-field="name">Ayesha Khan</h1>
+            <p class="role" data-field="role">Founder</p>
+            <p class="role-sub" data-field="roleSub">Pet relocation · Karachi → everywhere</p>
+          </div>
+
+          <div class="stamp-wrap" aria-hidden="true">
+            <svg viewBox="0 0 120 120">
+              <defs>
+                <path id="stampCircle" d="M60,60 m-44,0 a44,44 0 1,1 88,0 a44,44 0 1,1 -88,0"/>
+              </defs>
+              <circle cx="60" cy="60" r="55" fill="none" stroke="currentColor" stroke-width="2.4"/>
+              <circle cx="60" cy="60" r="33" fill="none" stroke="currentColor" stroke-width="1.4"/>
+              <g class="ring">
+                <text><textPath href="#stampCircle">CERTIFIED ✦ PET TRAVEL CURATOR ✦ WORLDWIDE</textPath></text>
+              </g>
+              <use href="#paw" transform="translate(60,61) scale(1.05)" fill="currentColor"/>
+            </svg>
+          </div>
+
+          <svg class="route" viewBox="0 0 504 62" preserveAspectRatio="none" aria-hidden="true">
+            <path id="routePath" class="path" d="M6,44 C90,6 170,58 262,28 S420,8 498,26"/>
+            <use href="#paw" x="42"  y="50" fill="var(--electric)" class="pawstep"/>
+            <use href="#paw" x="104" y="56" fill="var(--electric)" class="pawstep p2"/>
+            <use href="#paw" x="166" y="50" fill="var(--electric)" class="pawstep p3"/>
+            <g class="plane">
+              <path d="M16,0 L0,-6 L4,0 L0,6 Z" fill="var(--electric)"/>
+              <animateMotion dur="7s" repeatCount="indefinite" rotate="auto">
+                <mpath href="#routePath"/>
+              </animateMotion>
+            </g>
+          </svg>
+
+          <div class="ticker" aria-hidden="true">
+            <div class="ticker-track">
+              <span>KHI ✈ DXB ✈ LHR ✈ YYZ ✈ JFK ✈ SYD ✈ ISB</span>
+              <span>KHI ✈ DXB ✈ LHR ✈ YYZ ✈ JFK ✈ SYD ✈ ISB</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============ BACK ============ -->
+        <section class="face back">
+          <header class="b-top">
+            <div>
+              <h2>Boarding Pass</h2>
+              <p class="b-sub">HUMAN ATTENDANT · ONE WAY · GOOD DOGS ONLY</p>
+            </div>
+            <div class="b-flight">
+              <span class="b-no" data-field="flightNo">TF-043</span>
+              <span class="b-seat">SEAT 07A</span>
+            </div>
+          </header>
+
+          <div class="b-grid">
+            <a class="crow" id="row-email" href="mailto:hello@tailfares.com">
+              <span class="ic" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5" width="19" height="14" rx="2.5"/><path d="m3.5 6.5 8.5 6 8.5-6"/></svg>
+              </span>
+              <span><span class="c-label">EMAIL</span><span class="c-value" data-field="email">hello@tailfares.com</span></span>
+            </a>
+            <a class="crow" id="row-wa" href="https://wa.me/19092648657" target="_blank" rel="noopener">
+              <span class="ic" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 0 0-7.8 13.5L3 21l4.7-1.2A9 9 0 1 0 12 3Z"/><path d="M8.7 9.2c.3 2.6 3.5 5.8 6.1 6.1l1.5-1.5-2.2-1.2-1 .7a6.5 6.5 0 0 1-2.4-2.4l.7-1-1.2-2.2Z"/></svg>
+              </span>
+              <span><span class="c-label">WHATSAPP</span><span class="c-value" data-field="phoneDisplay">+1 909 264 8657</span></span>
+            </a>
+            <a class="crow" id="row-web" href="https://tailfares.com" target="_blank" rel="noopener">
+              <span class="ic" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>
+              </span>
+              <span><span class="c-label">WEB</span><span class="c-value" data-field="urlDisplay">tailfares.com</span></span>
+            </a>
+            <a class="crow" id="row-ig" href="https://instagram.com/tail.fares" target="_blank" rel="noopener">
+              <span class="ic" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1.1" fill="currentColor" stroke="none"/></svg>
+              </span>
+              <span><span class="c-label">INSTAGRAM</span><span class="c-value" data-field="instagram">@tail.fares</span></span>
+            </a>
+          </div>
+
+          <div class="b-bar" aria-hidden="true">
+            <div id="barcode"></div>
+            <div class="scanline"></div>
+          </div>
+          <p class="b-note">FLASH THIS CARD FOR UNLIMITED HEAD PATS &amp; TREAT CONSULTATIONS</p>
+        </section>
+
+        <div class="glare" aria-hidden="true"></div>
+      </div>
+    </div>
+  </div>
+
+  <p class="hint">✦ TAP THE CARD TO FLIP IT ✦</p>
+  <div class="actions">
+    <button class="primary" id="btnFlip" type="button">↻ Flip card</button>
+    <button id="btnVcf" type="button">↓ Download vCard</button>
+    <button id="btnPrint" type="button">⎙ Print both sides</button>
+  </div>
+</main>
+
+<script>
+  /* ============ EDIT ME — everything personalizable lives here ============ */
+  const DETAILS = {
+    name: "Hassan Qureshi",
+    role: "Founder",
+    roleSub: "Pet relocation · Karachi → everywhere",
+    org: "TailFares",
+    email: "hello@tailfares.com",
+    phone: "+19092648657",        // digits only, used for tel: link + vCard
+    phoneDisplay: "+1 909 264 8657",
+    url: "https://tailfares.com",
+    urlDisplay: "tailfares.com",
+    instagram: "@tail.fares",
+    flightNo: "TF-043",
+  };
+
+  document.querySelectorAll('[data-field]').forEach(el => {
+    const v = DETAILS[el.dataset.field];
+    if (v) el.textContent = v;
+  });
+  document.getElementById('row-email').href = 'mailto:' + DETAILS.email;
+  document.getElementById('row-wa').href = 'https://wa.me/' + DETAILS.phone.replace(/\D/g, '');
+  document.getElementById('row-web').href = DETAILS.url;
+  document.title = DETAILS.name + ' · ' + DETAILS.org + ' — Business Card';
+
+  /* ---- fit the fixed-size card to narrow screens ---- */
+  const sceneEl = document.getElementById('scene');
+  function fitScale(){
+    // smallest trustworthy viewport width — immune to overflow-triggered zoom-out
+    const vw = Math.min(
+      document.documentElement.clientWidth || Infinity,
+      window.innerWidth || Infinity,
+      (window.screen && screen.width) || Infinity
+    );
+    const s = Math.min(1, (vw - 36) / 560);
+    if (s < 1) {
+      sceneEl.style.transform = `scale(${s})`;
+      const trimY = (320 * (1 - s)) / 2;
+      const trimX = (560 * (1 - s)) / 2;
+      sceneEl.style.margin = `-${trimY}px -${trimX}px`;
+    } else {
+      sceneEl.style.transform = '';
+      sceneEl.style.margin = '';
+    }
+  }
+  fitScale();
+  window.addEventListener('resize', fitScale);
+  window.addEventListener('orientationchange', () => setTimeout(fitScale, 250));
+  setTimeout(fitScale, 300);
+
+  /* ---- flip ---- */
+  const card = document.getElementById('card');
+  function flip(){
+    card.classList.toggle('flipped');
+    card.setAttribute('aria-pressed', card.classList.contains('flipped'));
+  }
+  card.addEventListener('click', e => {
+    if (e.target.closest('a')) return; // links open their apps, not the flip
+    flip();
+  });
+  card.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); flip(); }
+  });
+  document.getElementById('btnFlip').addEventListener('click', flip);
+
+  /* ---- 3D tilt + glare ---- */
+  const scene = document.getElementById('scene');
+  const tilt = document.getElementById('tilt');
+  scene.addEventListener('pointermove', e => {
+    const r = scene.getBoundingClientRect();
+    const px = (e.clientX - r.left) / r.width - .5;
+    const py = (e.clientY - r.top) / r.height - .5;
+    tilt.style.transform = `rotateX(${(-py * 10).toFixed(2)}deg) rotateY(${(px * 14).toFixed(2)}deg)`;
+    card.style.setProperty('--mx', ((px + .5) * 100).toFixed(1) + '%');
+    card.style.setProperty('--my', ((py + .5) * 100).toFixed(1) + '%');
+  });
+  scene.addEventListener('pointerleave', () => { tilt.style.transform = ''; });
+
+  /* ---- barcode ---- */
+  const bc = document.getElementById('barcode');
+  for (let i = 0; i < 46; i++) {
+    const b = document.createElement('span');
+    b.style.width = (1 + Math.random() * 3.2).toFixed(1) + 'px';
+    if (Math.random() < .18) b.style.marginRight = (2 + Math.random() * 3).toFixed(1) + 'px';
+    bc.appendChild(b);
+  }
+
+  /* ---- drifting paw-print background ---- */
+  const paws = document.getElementById('bgPaws');
+  for (let i = 0; i < 9; i++) {
+    const p = document.createElement('div');
+    p.className = 'pawbg';
+    const s = 18 + Math.random() * 26;
+    p.style.left = (Math.random() * 96).toFixed(1) + 'vw';
+    p.style.width = p.style.height = s + 'px';
+    p.style.setProperty('--o', (0.04 + Math.random() * 0.06).toFixed(3));
+    p.style.animationDuration = (16 + Math.random() * 16).toFixed(1) + 's';
+    p.style.animationDelay = (-Math.random() * 30).toFixed(1) + 's';
+    paws.appendChild(p);
+  }
+
+  /* ---- vCard download ---- */
+  document.getElementById('btnVcf').addEventListener('click', () => {
+    const v = [
+      'BEGIN:VCARD','VERSION:3.0',
+      `N:;${DETAILS.name};;;`,
+      `FN:${DETAILS.name}`,
+      `ORG:${DETAILS.org}`,
+      `TITLE:${DETAILS.role}`,
+      `EMAIL:${DETAILS.email}`,
+      `TEL;TYPE=CELL:${DETAILS.phone}`,
+      `URL:${DETAILS.url}`,
+      `X-SOCIALPROFILE;TYPE=instagram:https://instagram.com/tail.fares`,
+      'END:VCARD'
+    ].join('\r\n');
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([v], {type:'text/vcard'}));
+    a.download = DETAILS.name.toLowerCase().replace(/\s+/g, '-') + '.vcf';
+    a.click();
+    URL.revokeObjectURL(a.href);
+  });
+
+  /* ---- print ---- */
+  document.getElementById('btnPrint').addEventListener('click', () => window.print());
+
+  /* ---- deep link: open with ?flipped=1 to show the back side ---- */
+  if (new URLSearchParams(location.search).has('flipped')) flip();
+</script>
+</body>
+</html>
