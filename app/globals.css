@@ -953,6 +953,98 @@ summary:focus-visible {
   font-size: 0.85rem;
 }
 
+/* ---------- digital business card ---------- */
+.card-page {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 120px 20px 80px;
+  background: var(--paper);
+}
+
+.biz-card {
+  width: min(440px, 100%);
+  background: var(--card);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.biz-top {
+  background: var(--ink);
+  color: var(--paper);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 13px 24px;
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.biz-body {
+  padding: 34px 28px 30px;
+}
+
+.biz-plane {
+  width: 40px;
+  height: 40px;
+  margin-bottom: 18px;
+  transform: rotate(45deg);
+}
+
+.biz-body h1 {
+  font-family: var(--font-display);
+  font-variation-settings: "wdth" 72;
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: 2.2rem;
+  line-height: 1;
+  letter-spacing: -0.01em;
+}
+
+.biz-title {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--electric);
+  margin-top: 10px;
+}
+
+.biz-line {
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+  margin-top: 16px;
+}
+
+.biz-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 26px;
+  flex-wrap: wrap;
+}
+
+.biz-meta {
+  margin-top: 26px;
+  padding-top: 20px;
+  border-top: 2px dashed var(--line-strong);
+  display: grid;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.88rem;
+}
+
+.biz-meta a {
+  text-decoration: none;
+  color: var(--ink);
+}
+
+.biz-meta a:hover {
+  color: var(--electric);
+}
+
 /* ---------- footer ---------- */
 .site-footer {
   background: var(--ink);
