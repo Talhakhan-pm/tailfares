@@ -303,23 +303,17 @@
           </header>
 
           <div class="b-grid">
-            <a class="crow wide" id="row-wa" href="https://wa.me/19793002736" target="_blank" rel="noopener">
-              <span class="ic" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 0 0-7.8 13.5L3 21l4.7-1.2A9 9 0 1 0 12 3Z"/><path d="M8.7 9.2c.3 2.6 3.5 5.8 6.1 6.1l1.5-1.5-2.2-1.2-1 .7a6.5 6.5 0 0 1-2.4-2.4l.7-1-1.2-2.2Z"/></svg>
-              </span>
-              <span><span class="c-label">WHATSAPP · FASTEST REPLY</span><span class="c-value" data-field="phoneDisplay">+1 979 300 2736</span></span>
-            </a>
             <a class="crow" id="row-email" href="mailto:hello@tailfares.com">
               <span class="ic" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5" width="19" height="14" rx="2.5"/><path d="m3.5 6.5 8.5 6 8.5-6"/></svg>
               </span>
               <span><span class="c-label">EMAIL</span><span class="c-value" data-field="email">hello@tailfares.com</span></span>
             </a>
-            <a class="crow" id="row-phone" href="tel:+19793002736">
+            <a class="crow" id="row-wa" href="https://wa.me/19793002736" target="_blank" rel="noopener">
               <span class="ic" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2Z"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 0 0-7.8 13.5L3 21l4.7-1.2A9 9 0 1 0 12 3Z"/><path d="M8.7 9.2c.3 2.6 3.5 5.8 6.1 6.1l1.5-1.5-2.2-1.2-1 .7a6.5 6.5 0 0 1-2.4-2.4l.7-1-1.2-2.2Z"/></svg>
               </span>
-              <span><span class="c-label">CALL</span><span class="c-value">+1 979 300 2736</span></span>
+              <span><span class="c-label">WHATSAPP</span><span class="c-value" data-field="phoneDisplay">+1 979 300 2736</span></span>
             </a>
             <a class="crow" id="row-web" href="https://tailfares.com" target="_blank" rel="noopener">
               <span class="ic" aria-hidden="true">
@@ -376,7 +370,6 @@
     if (v) el.textContent = v;
   });
   document.getElementById('row-email').href = 'mailto:' + DETAILS.email;
-  document.getElementById('row-phone').href = 'tel:' + DETAILS.phone;
   document.getElementById('row-wa').href = 'https://wa.me/' + DETAILS.phone.replace(/\D/g, '');
   document.getElementById('row-web').href = DETAILS.url;
   document.title = DETAILS.name + ' · ' + DETAILS.org + ' — Business Card';
