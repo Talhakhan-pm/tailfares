@@ -535,8 +535,11 @@ summary:focus-visible {
 /* =========================================================
    Scene 4 — landing & proof
    ========================================================= */
-.s4 {
+.journey-tail {
   position: relative;
+}
+
+.s4 {
   padding: 130px 0 60px;
   background: var(--paper);
 }
@@ -549,8 +552,9 @@ summary:focus-visible {
   position: absolute;
   left: 28px;
   top: 0;
-  bottom: 0;
+  height: 100%;
   width: 4px;
+  z-index: 1;
   pointer-events: none;
 }
 

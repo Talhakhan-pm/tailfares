@@ -224,9 +224,9 @@ export default function Director() {
           ".s4-line .draw-path"
         );
         // start/end at 55% of the viewport so the drawn tip always sits
-        // just above the reader's eye line as the section scrolls through
-        const s4 = document.querySelector(".s4");
-        if (s4Line && s4) drawPath(s4Line, s4, "top 55%", "bottom 55%");
+        // just above the reader's eye line; the line spans s4 + the FAQ
+        const tail = document.querySelector(".journey-tail");
+        if (s4Line && tail) drawPath(s4Line, tail, "top 55%", "bottom 55%");
 
         document.querySelectorAll(".landing-stamp .stamp").forEach((stamp) => {
           ScrollTrigger.create({
@@ -271,7 +271,13 @@ export default function Director() {
         });
 
         const onLoad = () => ScrollTrigger.refresh();
-        window.addEventListener("load", onLoad);
+        if (document.readyState === "complete") {
+          // load already fired before hydration — re-measure on the next frame
+          requestAnimationFrame(() => ScrollTrigger.refresh());
+        } else {
+          window.addEventListener("load", onLoad);
+        }
+        document.fonts?.ready.then(() => ScrollTrigger.refresh());
 
         return () => {
           document.removeEventListener("click", onAnchorClick);

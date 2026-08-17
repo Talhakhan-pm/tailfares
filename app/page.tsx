@@ -242,8 +242,8 @@ export default async function Home({
         </div>
       </section>
 
-      {/* ============ Scene 4 — landing & proof ============ */}
-      <section className="s4" id="routes">
+      {/* ============ Scene 4 — landing & proof (line runs through FAQ) ============ */}
+      <div className="journey-tail">
         <svg
           className="s4-line"
           viewBox="0 0 8 800"
@@ -259,6 +259,7 @@ export default async function Home({
             strokeLinecap="round"
           />
         </svg>
+      <section className="s4" id="routes">
         <div className="wrap">
           <div className="s4-head">
             <h2 className="display">Landed, cleared, delivered.</h2>
@@ -424,6 +425,7 @@ export default async function Home({
           </div>
         </div>
       </section>
+      </div>
 
       {/* ============ Scene 5 — the door ============ */}
       <section className="s5">
