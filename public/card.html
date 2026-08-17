@@ -70,6 +70,10 @@
     -webkit-backface-visibility:hidden;backface-visibility:hidden;
     display:flex;flex-direction:column;
   }
+  /* WebKit backface bleed fix: hard-hide the away-facing side at the flip midpoint */
+  .card .face{transition:opacity 0s linear .32s}
+  .card.flipped .face.front{opacity:0;pointer-events:none}
+  .card:not(.flipped) .face.back{opacity:0;pointer-events:none}
   .face.front{
     background:linear-gradient(160deg,#ffffff 0%,var(--paper) 78%);
     box-shadow:inset 0 0 0 1px var(--line);
@@ -193,6 +197,11 @@
     .face.back{margin-top:16px}
     .glare,.scanline{display:none}
     .crow{opacity:1!important;animation:none!important}
+  }
+
+  /* static mobile fallback so the layout never overflows pre-JS (JS refines the exact scale) */
+  @media (max-width:600px){
+    .scene{transform:scale(.6);margin:-64px -112px}
   }
 
   @media (prefers-reduced-motion:reduce){
@@ -328,13 +337,12 @@
     </div>
   </div>
 
-  <p class="hint">✦ CLICK THE CARD TO FLIP IT ✦</p>
+  <p class="hint">✦ TAP THE CARD TO FLIP IT ✦</p>
   <div class="actions">
     <button class="primary" id="btnFlip" type="button">↻ Flip card</button>
     <button id="btnVcf" type="button">↓ Download vCard</button>
     <button id="btnPrint" type="button">⎙ Print both sides</button>
   </div>
-  <p class="edit-note">// placeholder details — edit the DETAILS object in the source, or tell me your real info</p>
 </main>
 
 <script>
@@ -361,6 +369,31 @@
   document.querySelector('[data-field="phoneDisplay"]').href = 'tel:' + DETAILS.phone;
   document.querySelector('[data-field="urlDisplay"]').href = DETAILS.url;
   document.title = DETAILS.name + ' · ' + DETAILS.org + ' — Business Card';
+
+  /* ---- fit the fixed-size card to narrow screens ---- */
+  const sceneEl = document.getElementById('scene');
+  function fitScale(){
+    // smallest trustworthy viewport width — immune to overflow-triggered zoom-out
+    const vw = Math.min(
+      document.documentElement.clientWidth || Infinity,
+      window.innerWidth || Infinity,
+      (window.screen && screen.width) || Infinity
+    );
+    const s = Math.min(1, (vw - 36) / 560);
+    if (s < 1) {
+      sceneEl.style.transform = `scale(${s})`;
+      const trimY = (320 * (1 - s)) / 2;
+      const trimX = (560 * (1 - s)) / 2;
+      sceneEl.style.margin = `-${trimY}px -${trimX}px`;
+    } else {
+      sceneEl.style.transform = '';
+      sceneEl.style.margin = '';
+    }
+  }
+  fitScale();
+  window.addEventListener('resize', fitScale);
+  window.addEventListener('orientationchange', () => setTimeout(fitScale, 250));
+  setTimeout(fitScale, 300);
 
   /* ---- flip ---- */
   const card = document.getElementById('card');
