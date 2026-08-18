@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Archivo, Manrope, IBM_Plex_Mono } from "next/font/google";
 import Link from "next/link";
+import Backdrop from "@/components/Backdrop";
 import "./globals.css";
 
 const archivo = Archivo({
@@ -41,6 +42,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${archivo.variable} ${manrope.variable} ${plexMono.variable}`}>
       <body>
+        <Backdrop />
         <header className="site-header">
           <div className="wrap">
             <Link href="/" className="logo">

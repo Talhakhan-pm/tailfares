@@ -51,6 +51,100 @@ a {
   color: inherit;
 }
 
+/* ---------- layered backdrop (wash → blobs → dot grid → paws) ---------- */
+.bg-layer {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.bg-wash {
+  background: linear-gradient(
+    165deg,
+    var(--electric-wash) 0%,
+    var(--paper) 46%,
+    #eef0ea 100%
+  );
+}
+
+.bg-dots {
+  background-image: radial-gradient(rgba(17, 19, 24, 0.055) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+.bg-blob {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(90px);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.bg-blob-a {
+  width: 44vmax;
+  height: 44vmax;
+  left: -12vmax;
+  top: -14vmax;
+  background: radial-gradient(circle, rgba(147, 180, 245, 0.4), transparent 70%);
+  animation: bg-drift 34s ease-in-out infinite alternate;
+}
+
+.bg-blob-b {
+  width: 36vmax;
+  height: 36vmax;
+  right: -10vmax;
+  bottom: -12vmax;
+  background: radial-gradient(circle, rgba(37, 99, 235, 0.13), transparent 70%);
+  animation: bg-drift 28s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes bg-drift {
+  from {
+    transform: translate(0, 0) scale(1);
+  }
+  to {
+    transform: translate(4vmax, 3vmax) scale(1.12);
+  }
+}
+
+.bg-paw {
+  position: fixed;
+  bottom: -60px;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0;
+  background-repeat: no-repeat;
+  background-size: contain;
+  animation: paw-rise linear infinite;
+}
+
+@keyframes paw-rise {
+  0% {
+    transform: translateY(0) rotate(-8deg);
+    opacity: 0;
+  }
+  8% {
+    opacity: var(--o, 0.05);
+  }
+  85% {
+    opacity: var(--o, 0.05);
+  }
+  100% {
+    transform: translateY(-118vh) rotate(14deg);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bg-paw {
+    display: none;
+  }
+  .bg-blob {
+    animation: none;
+  }
+}
+
 ::selection {
   background: var(--electric);
   color: #fff;
@@ -199,7 +293,7 @@ summary:focus-visible {
   display: grid;
   grid-template-rows: 1fr auto;
   overflow: hidden;
-  background: var(--paper);
+  background: transparent;
 }
 
 .s1 .wrap {
@@ -332,7 +426,7 @@ summary:focus-visible {
 .s2 {
   position: relative;
   padding: 120px 0 140px;
-  background: var(--paper);
+  background: transparent;
   overflow: hidden;
 }
 
@@ -541,7 +635,7 @@ summary:focus-visible {
 
 .s4 {
   padding: 130px 0 60px;
-  background: var(--paper);
+  background: transparent;
 }
 
 .s4 .wrap {
@@ -767,7 +861,7 @@ summary:focus-visible {
    ========================================================= */
 .s5 {
   padding: 120px 0 140px;
-  background: var(--paper);
+  background: transparent;
 }
 
 .s5 .wrap {
@@ -1209,7 +1303,7 @@ summary:focus-visible {
 /* ---------- route detail pages ---------- */
 .route-hero {
   position: relative;
-  background: var(--paper);
+  background: transparent;
   border-bottom: 1px solid var(--line);
   padding: 170px 0 70px;
   overflow: hidden;
