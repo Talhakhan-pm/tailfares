@@ -26,6 +26,7 @@ The style contract. Every future edit reads this first and stays inside it.
 ## Layout signatures
 - The electric flight path is the grid break — it crosses section boundaries; content alternates around it.
 - Dark (`--ink`) appears ONLY inside the s3 peak and the footer. The page base is always paper.
+- **Backdrop (site-wide, added 2026-08-17 by user decision):** four fixed z-index:-1 layers behind everything — diagonal wash (electric-wash→paper→#eef0ea), two blurred drifting blobs (brand blue at 13–40% alpha, 28/34s alternate loops), 22px dot grid at 5.5% ink, and 7 rising paw prints at 3–8% opacity (components/Backdrop.tsx). Light sections are transparent so it shows through; s3 and the footer stay solid ink over it. Cards/tables stay solid `--card` white. Reduced motion: paws hidden, blobs frozen. This supersedes the earlier "no paw iconography" ban for the backdrop only; content-level paw icons remain off-limits.
 - Mobile ≤640px: hero swaps to `.flightpath-mobile` (right-edge geometry); prep steps go single-column left-rail; nightmap city labels bump to 26px svg units.
 
 ## Project ban additions
